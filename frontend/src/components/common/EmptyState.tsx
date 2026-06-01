@@ -7,39 +7,30 @@ interface EmptyStateProps {
   icon?: React.ReactNode
   title: string
   description?: string
-  action?: {
-    label: string
-    onClick: () => void
-  }
+  action?: { label: string; onClick: () => void }
   className?: string
 }
 
 export function EmptyState({ icon, title, description, action, className }: EmptyStateProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={cn(
-        'flex flex-col items-center justify-center py-16 px-4 text-center',
-        className
-      )}
+      transition={{ duration: 0.25 }}
+      className={cn('flex flex-col items-center justify-center py-16 px-4 text-center', className)}
       role="status"
-      aria-label={title}
     >
       {icon && (
-        <div className="mb-4 text-muted-foreground/40" aria-hidden="true">
+        <div className="mb-4 p-4 rounded-2xl bg-muted/60 text-muted-foreground/40" aria-hidden="true">
           {icon}
         </div>
       )}
-      <h3 className="text-base font-semibold text-foreground mb-1">{title}</h3>
+      <p className="text-sm font-semibold text-foreground mb-1">{title}</p>
       {description && (
-        <p className="text-sm text-muted-foreground max-w-sm mb-4">{description}</p>
+        <p className="text-xs text-muted-foreground max-w-xs leading-relaxed mb-4">{description}</p>
       )}
       {action && (
-        <Button size="sm" onClick={action.onClick}>
-          {action.label}
-        </Button>
+        <Button size="sm" onClick={action.onClick}>{action.label}</Button>
       )}
     </motion.div>
   )

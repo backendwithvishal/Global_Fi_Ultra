@@ -1,14 +1,9 @@
 import React from 'react'
 import { Moon, Sun, Bell, Wifi, WifiOff, User, LogOut, Settings, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useApp } from '@/context/AppContext'
 import { cn } from '@/lib/utils'
@@ -25,20 +20,20 @@ export function Header({ connected, warningCount = 0 }: HeaderProps) {
 
   return (
     <header
-      className="flex items-center justify-between h-14 px-4 border-b border-border bg-card/80 backdrop-blur-sm shrink-0 w-full"
+      className="flex items-center justify-between h-14 px-5 border-b border-border/60 bg-card/80 backdrop-blur-xl shrink-0 w-full"
       role="banner"
     >
-      {/* Left: breadcrumb / page title area */}
-      <div className="flex items-center gap-2">
-        <div
+      {/* Left — connection status */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate('/system')}
           className={cn(
-            'flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full',
+            'flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-all',
             connected
-              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-              : 'bg-red-500/10 text-red-600 dark:text-red-400'
+              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/15'
+              : 'bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/15'
           )}
-          aria-live="polite"
-          aria-label={connected ? 'WebSocket connected' : 'WebSocket disconnected'}
+          aria-label={connected ? 'WebSocket connected — view system' : 'WebSocket disconnected'}
         >
           {connected ? (
             <Wifi className="w-3 h-3" aria-hidden="true" />
@@ -47,55 +42,52 @@ export function Header({ connected, warningCount = 0 }: HeaderProps) {
           )}
           <span className="hidden sm:inline">{connected ? 'Live' : 'Offline'}</span>
           {connected && (
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse-dot" aria-hidden="true" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" aria-hidden="true" />
           )}
-        </div>
+        </button>
       </div>
 
-      {/* Right: actions */}
+      {/* Right — actions */}
       <div className="flex items-center gap-1">
-        {/* Warnings bell */}
+        {/* Notifications */}
         <Button
           variant="ghost"
           size="icon"
-          className="relative"
+          className="relative text-muted-foreground hover:text-foreground"
           aria-label={`Notifications${warningCount > 0 ? `, ${warningCount} new` : ''}`}
           onClick={() => navigate('/system')}
         >
           <Bell className="h-4 w-4" aria-hidden="true" />
           {warningCount > 0 && (
-            <span
-              className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white"
-              aria-hidden="true"
-            >
+            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white leading-none" aria-hidden="true">
               {warningCount > 9 ? '9+' : warningCount}
             </span>
           )}
         </Button>
 
-        {/* Theme toggle */}
+        {/* Theme */}
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleTheme}
+          className="text-muted-foreground hover:text-foreground"
           aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          {isDark ? (
-            <Sun className="h-4 w-4" aria-hidden="true" />
-          ) : (
-            <Moon className="h-4 w-4" aria-hidden="true" />
-          )}
+          {isDark
+            ? <Sun className="h-4 w-4" aria-hidden="true" />
+            : <Moon className="h-4 w-4" aria-hidden="true" />
+          }
         </Button>
 
-        {/* User menu */}
+        {/* User */}
         {currentUser ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-2 pl-2 pr-3">
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold">
+              <Button variant="ghost" size="sm" className="gap-2 pl-2 pr-2.5 text-muted-foreground hover:text-foreground">
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary text-xs font-bold border border-primary/30">
                   {currentUser.firstName[0]}{currentUser.lastName[0]}
                 </div>
-                <span className="hidden sm:inline text-sm font-medium max-w-[120px] truncate">
+                <span className="hidden sm:inline text-sm font-medium max-w-[100px] truncate text-foreground">
                   {currentUser.firstName}
                 </span>
                 <ChevronDown className="h-3 w-3 opacity-50" aria-hidden="true" />
@@ -103,8 +95,8 @@ export function Header({ connected, warningCount = 0 }: HeaderProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium">{currentUser.firstName} {currentUser.lastName}</p>
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-sm font-semibold text-foreground">{currentUser.firstName} {currentUser.lastName}</p>
                   <p className="text-xs text-muted-foreground truncate">{currentUser.email}</p>
                 </div>
               </DropdownMenuLabel>
@@ -116,7 +108,7 @@ export function Header({ connected, warningCount = 0 }: HeaderProps) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={logout}
-                className="text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400"
+                className="text-red-400 focus:text-red-400 focus:bg-red-500/10"
               >
                 <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
                 Sign out
@@ -124,8 +116,8 @@ export function Header({ connected, warningCount = 0 }: HeaderProps) {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Button size="sm" onClick={() => navigate('/login')}>
-            <User className="h-4 w-4 mr-1.5" aria-hidden="true" />
+          <Button size="sm" onClick={() => navigate('/login')} className="gap-1.5">
+            <User className="h-3.5 w-3.5" aria-hidden="true" />
             Sign in
           </Button>
         )}

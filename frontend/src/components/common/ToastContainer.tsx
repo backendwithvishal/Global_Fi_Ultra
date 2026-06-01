@@ -9,57 +9,67 @@ interface ToastContainerProps {
   onRemove: (id: string) => void
 }
 
-const icons = {
-  success: CheckCircle2,
-  error: AlertCircle,
-  warning: AlertTriangle,
-  info: Info,
-}
-
-const styles = {
-  success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
-  error: 'border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300',
-  warning: 'border-yellow-500/30 bg-yellow-500/10 text-yellow-700 dark:text-yellow-300',
-  info: 'border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-blue-300',
+const config = {
+  success: {
+    icon: CheckCircle2,
+    cls: 'border-emerald-500/25 bg-emerald-500/10 text-emerald-300',
+    iconCls: 'text-emerald-400',
+  },
+  error: {
+    icon: AlertCircle,
+    cls: 'border-red-500/25 bg-red-500/10 text-red-300',
+    iconCls: 'text-red-400',
+  },
+  warning: {
+    icon: AlertTriangle,
+    cls: 'border-amber-500/25 bg-amber-500/10 text-amber-300',
+    iconCls: 'text-amber-400',
+  },
+  info: {
+    icon: Info,
+    cls: 'border-blue-500/25 bg-blue-500/10 text-blue-300',
+    iconCls: 'text-blue-400',
+  },
 }
 
 export function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
   return (
     <div
-      className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none"
+      className="fixed bottom-5 right-5 z-[100] flex flex-col gap-2 max-w-[340px] w-full pointer-events-none"
       aria-live="polite"
-      aria-label="Notifications"
       role="region"
+      aria-label="Notifications"
     >
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => {
-          const Icon = icons[toast.type]
+          const { icon: Icon, cls, iconCls } = config[toast.type]
           return (
             <motion.div
               key={toast.id}
               layout
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
+              exit={{ opacity: 0, y: -8, scale: 0.96 }}
+              transition={{ duration: 0.18, ease: 'easeOut' }}
               className={cn(
-                'pointer-events-auto flex items-start gap-3 rounded-xl border p-4 shadow-lg backdrop-blur-sm',
-                styles[toast.type]
+                'pointer-events-auto flex items-start gap-3 rounded-xl border p-3.5',
+                'shadow-[0_8px_32px_hsl(240_10%_3.9%/0.6)] backdrop-blur-sm',
+                cls
               )}
               role="alert"
               aria-atomic="true"
             >
-              <Icon className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" />
+              <Icon className={cn('h-4 w-4 mt-0.5 shrink-0', iconCls)} aria-hidden="true" />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold leading-tight">{toast.title}</p>
                 {toast.description && (
-                  <p className="text-xs mt-0.5 opacity-80">{toast.description}</p>
+                  <p className="text-xs mt-0.5 opacity-75 leading-relaxed">{toast.description}</p>
                 )}
               </div>
               <button
                 onClick={() => onRemove(toast.id)}
-                className="shrink-0 opacity-60 hover:opacity-100 transition-opacity"
-                aria-label="Dismiss notification"
+                className="shrink-0 opacity-50 hover:opacity-100 transition-opacity mt-0.5"
+                aria-label="Dismiss"
               >
                 <X className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
