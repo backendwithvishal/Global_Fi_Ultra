@@ -18,7 +18,7 @@ import { PageHeader } from '@/components/common/PageHeader'
 import { EmptyState } from '@/components/common/EmptyState'
 import { ErrorState } from '@/components/common/ErrorState'
 import { alertsApi } from '@/lib/api'
-import type { Alert, AssetType, AlertCondition } from '@/types'
+import type { Alert, AssetType, AlertCondition, CreateAlertFormData } from '@/types'
 import { formatCurrency, formatRelativeTime, formatDate } from '@/lib/utils'
 import { useApp } from '@/context/AppContext'
 

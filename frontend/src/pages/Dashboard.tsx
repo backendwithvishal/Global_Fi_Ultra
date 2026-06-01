@@ -226,7 +226,7 @@ export function Dashboard() {
                         <XAxis dataKey="name" tick={{ fontSize: 11 }} />
                         <YAxis tick={{ fontSize: 11 }} />
                         <Tooltip
-                          formatter={(v: number) => `${v.toFixed(2)}%`}
+                          formatter={(v) => [`${Number(v).toFixed(2)}%`, 'Change']}
                           contentStyle={{
                             background: 'hsl(var(--popover))',
                             border: '1px solid hsl(var(--border))',

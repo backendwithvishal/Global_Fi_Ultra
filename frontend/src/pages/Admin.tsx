@@ -166,7 +166,9 @@ export function Admin() {
               ) : (
                 <div className="space-y-2 max-h-[500px] overflow-y-auto" role="list" aria-label="Error logs">
                   {logs.map((log, i) => {
-                    const l = log
+                    const timestamp = log.timestamp as string | undefined
+                    const message = log.message as string | undefined
+                    const requestId = log.requestId as string | undefined
                     return (
                       <motion.div
                         key={i}
@@ -178,18 +180,18 @@ export function Admin() {
                       >
                         <div className="flex items-start justify-between gap-2 mb-1">
                           <Badge variant="destructive" className="text-[10px] shrink-0">ERROR</Badge>
-                          {l.timestamp && (
+                          {timestamp && (
                             <span className="text-muted-foreground flex items-center gap-1">
                               <Clock className="h-2.5 w-2.5" aria-hidden="true" />
-                              {formatRelativeTime(String(l.timestamp))}
+                              {formatRelativeTime(timestamp)}
                             </span>
                           )}
                         </div>
-                        {l.message && (
-                          <p className="text-foreground/80 break-all">{String(l.message)}</p>
+                        {message && (
+                          <p className="text-foreground/80 break-all">{message}</p>
                         )}
-                        {l.requestId && (
-                          <p className="text-muted-foreground mt-1">ID: {String(l.requestId)}</p>
+                        {requestId && (
+                          <p className="text-muted-foreground mt-1">ID: {requestId}</p>
                         )}
                       </motion.div>
                     )

@@ -16,7 +16,7 @@ import { PageHeader } from '@/components/common/PageHeader'
 import { EmptyState } from '@/components/common/EmptyState'
 import { ErrorState } from '@/components/common/ErrorState'
 import { watchlistsApi } from '@/lib/api'
-import type { Watchlist } from '@/types'
+import type { Watchlist, CreateWatchlistFormData } from '@/types'
 import { formatRelativeTime } from '@/lib/utils'
 import { useApp } from '@/context/AppContext'
 
