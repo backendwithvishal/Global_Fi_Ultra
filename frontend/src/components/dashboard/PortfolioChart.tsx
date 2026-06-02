@@ -52,7 +52,7 @@ export function PortfolioChart({ loading }: PortfolioChartProps) {
             <Tooltip
               contentStyle={{ background: '#131D2E', border: '1px solid rgba(100,116,139,0.3)', borderRadius: '10px', fontSize: '12px' }}
               labelStyle={{ color: '#94a3b8' }}
-              formatter={(v: number) => [`$${new Intl.NumberFormat('en-US').format(Math.round(v))}`, 'Value']}
+              formatter={(v) => [`$${new Intl.NumberFormat('en-US').format(Math.round(Number(v)))}`, 'Value']}
               cursor={{ stroke: 'rgba(59,130,246,0.4)', strokeWidth: 1 }}
             />
             <Area type="monotone" dataKey="value" stroke="#3B82F6" strokeWidth={2} fill="url(#portfolioGrad)" />
