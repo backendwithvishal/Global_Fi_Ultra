@@ -4,18 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Global-Fi Ultra — High-performance financial data dashboard with real-time market data, AI insights, and portfolio management." />
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="description" content="Global-Fi Ultra — Real-time financial data, AI insights, and portfolio management." />
+    <meta name="theme-color" content="#0d0d12" />
     <title>Global-Fi Ultra</title>
     <script>
-      // Apply dark mode before render to prevent flash
-      (function() {
+      // Dark is the default — apply .light class only when light mode is selected.
+      // This runs before React renders to prevent any flash of wrong theme.
+      (function () {
         try {
-          var theme = localStorage.getItem('gfu_theme') || 'dark';
-          var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-          if (isDark) document.documentElement.classList.add('dark');
-        } catch(e) {
-          document.documentElement.classList.add('dark');
+          var t = localStorage.getItem('gfu_theme') || 'dark';
+          var isLight = t === 'light' || (t === 'system' && !window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isLight) document.documentElement.classList.add('light');
+        } catch (e) {
+          // stay dark (default)
         }
       })();
     </script>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Moon, Sun, Bell, Wifi, WifiOff, User, LogOut, Settings, ChevronDown } from 'lucide-react'
+import { Moon, Sun, Bell, Wifi, WifiOff, User, LogOut, Settings, ChevronDown, Menu, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
@@ -12,44 +12,60 @@ import { useNavigate } from 'react-router-dom'
 interface HeaderProps {
   connected: boolean
   warningCount?: number
+  onMobileMenuClick?: () => void
 }
 
-export function Header({ connected, warningCount = 0 }: HeaderProps) {
+export function Header({ connected, warningCount = 0, onMobileMenuClick }: HeaderProps) {
   const { isDark, toggleTheme, currentUser, logout } = useApp()
   const navigate = useNavigate()
 
   return (
     <header
-      className="flex items-center justify-between h-14 px-5 border-b border-border/60 bg-card/80 backdrop-blur-xl shrink-0 w-full"
+      className="flex items-center justify-between h-14 px-4 border-b border-border/60 bg-card/80 backdrop-blur-xl shrink-0 w-full"
       role="banner"
     >
-      {/* Left — connection status */}
+      {/* Left */}
       <div className="flex items-center gap-3">
+        {/* Mobile hamburger */}
+        <button
+          onClick={onMobileMenuClick}
+          className="flex md:hidden items-center justify-center w-8 h-8 rounded-lg hover:bg-accent transition-colors text-muted-foreground hover:text-foreground"
+          aria-label="Open navigation"
+        >
+          <Menu className="h-4.5 w-4.5" aria-hidden="true" />
+        </button>
+
+        {/* Mobile logo */}
+        <div className="flex md:hidden items-center gap-2">
+          <div className="flex items-center justify-center w-6 h-6 rounded-md bg-primary shadow-md shadow-primary/30">
+            <Zap className="w-3.5 h-3.5 text-white" />
+          </div>
+          <span className="font-bold text-sm tracking-tight text-foreground">Global-Fi Ultra</span>
+        </div>
+
+        {/* Live status (desktop) */}
         <button
           onClick={() => navigate('/system')}
           className={cn(
-            'flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-all',
+            'hidden md:flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-all',
             connected
               ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/15'
               : 'bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/15'
           )}
-          aria-label={connected ? 'WebSocket connected — view system' : 'WebSocket disconnected'}
+          aria-label={connected ? 'Live — view system' : 'Offline'}
         >
-          {connected ? (
-            <Wifi className="w-3 h-3" aria-hidden="true" />
-          ) : (
-            <WifiOff className="w-3 h-3" aria-hidden="true" />
-          )}
-          <span className="hidden sm:inline">{connected ? 'Live' : 'Offline'}</span>
-          {connected && (
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" aria-hidden="true" />
-          )}
+          {connected
+            ? <Wifi className="w-3 h-3" aria-hidden="true" />
+            : <WifiOff className="w-3 h-3" aria-hidden="true" />
+          }
+          {connected ? 'Live' : 'Offline'}
+          {connected && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" aria-hidden="true" />}
         </button>
       </div>
 
-      {/* Right — actions */}
+      {/* Right */}
       <div className="flex items-center gap-1">
-        {/* Notifications */}
+        {/* Notification bell */}
         <Button
           variant="ghost"
           size="icon"
@@ -59,13 +75,16 @@ export function Header({ connected, warningCount = 0 }: HeaderProps) {
         >
           <Bell className="h-4 w-4" aria-hidden="true" />
           {warningCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white leading-none" aria-hidden="true">
+            <span
+              className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white leading-none"
+              aria-hidden="true"
+            >
               {warningCount > 9 ? '9+' : warningCount}
             </span>
           )}
         </Button>
 
-        {/* Theme */}
+        {/* Theme toggle */}
         <Button
           variant="ghost"
           size="icon"
@@ -79,7 +98,7 @@ export function Header({ connected, warningCount = 0 }: HeaderProps) {
           }
         </Button>
 
-        {/* User */}
+        {/* User menu */}
         {currentUser ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -90,7 +109,7 @@ export function Header({ connected, warningCount = 0 }: HeaderProps) {
                 <span className="hidden sm:inline text-sm font-medium max-w-[100px] truncate text-foreground">
                   {currentUser.firstName}
                 </span>
-                <ChevronDown className="h-3 w-3 opacity-50" aria-hidden="true" />
+                <ChevronDown className="h-3 w-3 opacity-40" aria-hidden="true" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">

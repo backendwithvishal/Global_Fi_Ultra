@@ -1,6 +1,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { Theme } from '@/types'
 
+// The CSS design system is DARK by default.
+// We apply the .light class to <html> when light mode is active.
+// Removing .light class = dark mode (default).
+
 export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(() => {
     const stored = localStorage.getItem('gfu_theme') as Theme | null
@@ -9,17 +13,16 @@ export function useTheme() {
 
   const applyTheme = useCallback((t: Theme) => {
     const root = document.documentElement
-    const isDark =
-      t === 'dark' ||
-      (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    root.classList.toggle('dark', isDark)
+    const isLight =
+      t === 'light' ||
+      (t === 'system' && !window.matchMedia('(prefers-color-scheme: dark)').matches)
+    root.classList.toggle('light', isLight)
   }, [])
 
   useEffect(() => {
     applyTheme(theme)
   }, [theme, applyTheme])
 
-  // Listen for system theme changes
   useEffect(() => {
     if (theme !== 'system') return
     const mq = window.matchMedia('(prefers-color-scheme: dark)')

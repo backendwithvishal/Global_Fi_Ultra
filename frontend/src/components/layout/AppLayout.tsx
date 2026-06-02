@@ -1,17 +1,14 @@
 import React, { useState, createContext, useContext } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Menu } from 'lucide-react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
 import { ToastContainer } from '@/components/common/ToastContainer'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
 import { useWebSocket } from '@/hooks/useWebSocket'
 import { useApp } from '@/context/AppContext'
 import type { FinancialDataResponse, AIMessage } from '@/types'
 
 // ─── Shared WebSocket Context ─────────────────────────────────────────────────
-// One Socket.io connection for the entire app — all pages read from this context
 
 interface SystemWarning {
   id: string
@@ -29,19 +26,14 @@ interface CircuitBreakerChange {
 }
 
 export interface WebSocketContextValue {
-  // Connection state
   connected: boolean
   socketId: string | undefined
-  // Financial data
   financialData: FinancialDataResponse | null
-  // System events
   systemWarnings: SystemWarning[]
   circuitBreakerChanges: CircuitBreakerChange[]
   clearWarnings: () => void
-  // Live stream
   joinLiveStream: () => void
   leaveLiveStream: () => void
-  // AI chat
   aiMessages: AIMessage[]
   isAIStreaming: boolean
   sendAIChat: (message: string, sessionId?: string) => void
@@ -64,49 +56,35 @@ export function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { toasts, removeToast } = useApp()
 
-  // Single shared WebSocket connection — all pages consume via useSharedWebSocket()
+  // Single shared WebSocket — all pages consume via useSharedWebSocket()
   const ws = useWebSocket({ autoConnect: true })
 
   return (
     <WebSocketContext.Provider value={ws}>
       <div className="flex h-screen overflow-hidden bg-background">
+
         {/* Desktop sidebar */}
-        <div className="hidden md:flex">
+        <div className="hidden md:flex shrink-0">
           <Sidebar
             collapsed={sidebarCollapsed}
             onToggle={() => setSidebarCollapsed((c) => !c)}
           />
         </div>
 
-        {/* Mobile sidebar via Sheet */}
+        {/* Mobile sidebar sheet */}
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-          <SheetContent side="left" className="p-0 w-64">
+          <SheetContent side="left" className="p-0 w-[220px] border-r border-border/60">
             <Sidebar collapsed={false} onToggle={() => setMobileOpen(false)} />
           </SheetContent>
         </Sheet>
 
-        {/* Main content */}
+        {/* Main */}
         <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-          {/* Mobile top bar */}
-          <div className="flex md:hidden items-center h-14 px-4 border-b border-border bg-card/80 backdrop-blur-sm shrink-0">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open navigation menu"
-              className="mr-2"
-            >
-              <Menu className="h-5 w-5" aria-hidden="true" />
-            </Button>
-            <span className="font-bold text-sm tracking-tight">Global-Fi Ultra</span>
-          </div>
-
-          {/* Header */}
           <Header
             connected={ws.connected}
             warningCount={ws.systemWarnings.length}
+            onMobileMenuClick={() => setMobileOpen(true)}
           />
-
           <main
             className="flex-1 overflow-y-auto"
             id="main-content"
@@ -118,7 +96,6 @@ export function AppLayout() {
         </div>
       </div>
 
-      {/* Toast notifications */}
       <ToastContainer toasts={toasts} onRemove={removeToast} />
     </WebSocketContext.Provider>
   )
