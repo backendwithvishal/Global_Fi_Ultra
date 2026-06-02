@@ -41,6 +41,8 @@ Required for full functionality:
 - `NEWS_API_KEY` — Financial news
 - `FRED_API_KEY` — Economic indicators
 - `FINNHUB_API_KEY` — Market news
+- `JWT_SECRET` — Secret key for JWT token signing (has a dev default, **change in production**)
+- `JWT_EXPIRES_IN` — Token expiry duration (default: `7d`)
 
 ## API Endpoints
 
@@ -52,12 +54,34 @@ All routes are prefixed with `/api/v1`:
 | `GET /health/readiness` | Readiness probe |
 | `GET /financial/live` | Live market data |
 | `GET /financial/cached` | Cached market data |
-| `GET/POST /users` | User management |
+| `POST /users/login` | Login — returns `{ token, user }` |
+| `POST /users` | Register new user |
+| `GET/PUT/DELETE /users/:id` | User management |
 | `GET/POST /watchlists` | Watchlist CRUD |
 | `GET/POST /alerts` | Price alert CRUD |
+| `PATCH /alerts/:id/activate` | Activate alert |
+| `PATCH /alerts/:id/deactivate` | Deactivate alert |
 | `GET/POST /assets` | Asset management |
+| `GET /assets/:symbol/live` | Live price for asset |
 | `POST /ai/sentiment` | Sentiment analysis |
 | `POST /ai/analyze` | Asset analysis |
+| `POST /ai/recommend` | Investment recommendations |
+| `POST /ai/portfolio` | Portfolio analysis |
+| `POST /ai/predict` | Price prediction |
+| `GET /status/circuit-breakers` | Circuit breaker status |
+| `POST /admin/cache/clear` | Clear Redis cache |
+
+## Authentication
+
+Login via `POST /api/v1/users/login` with `{ email, password }`.
+The response includes a signed JWT token. Pass it as a `Bearer` token on subsequent requests:
+
+```
+Authorization: Bearer <token>
+```
+
+Protected routes use the `requireAuth` middleware from `src/middleware/authMiddleware.js`.
+Currently all resource routes allow unauthenticated access for development convenience — add `requireAuth` to any route to lock it down.
 | `POST /ai/recommend` | Investment recommendations |
 | `POST /ai/portfolio` | Portfolio analysis |
 | `GET /admin/metrics` | System metrics |
