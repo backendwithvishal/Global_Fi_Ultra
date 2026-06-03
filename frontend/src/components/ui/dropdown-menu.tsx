@@ -9,8 +9,8 @@ const DropdownMenuPortal = DropdownMenuPrimitive.Portal
 const DropdownMenuSub = DropdownMenuPrimitive.Sub
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
 
-const contentCls = 'z-50 min-w-[10rem] overflow-hidden rounded-xl border border-slate-700 bg-[#131D2E] p-1 text-slate-200 shadow-[0_16px_48px_rgba(0,0,0,0.6)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2'
-const itemCls = 'relative flex cursor-default select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-slate-200 outline-none transition-colors focus:bg-slate-800 focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-40'
+const contentCls = 'z-50 min-w-[10rem] overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#131D2E] p-1 text-slate-700 dark:text-slate-200 shadow-[0_16px_48px_rgba(0,0,0,0.15)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.6)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2'
+const itemCls = 'relative flex cursor-default select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-slate-700 dark:text-slate-200 outline-none transition-colors focus:bg-slate-100 dark:focus:bg-slate-800 focus:text-slate-900 dark:focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-40'
 
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
@@ -26,7 +26,7 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & { inset?: boolean }
 >(({ className = '', inset, ...props }, ref) => (
-  <DropdownMenuPrimitive.Item ref={ref} className={`${itemCls} ${inset ? 'pl-8' : ''} [&_svg]:size-4 [&_svg]:text-slate-500 ${className}`} {...props} />
+  <DropdownMenuPrimitive.Item ref={ref} className={`${itemCls} ${inset ? 'pl-8' : ''} [&_svg]:size-4 [&_svg]:text-slate-400 dark:[&_svg]:text-slate-500 ${className}`} {...props} />
 ))
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
 
@@ -42,7 +42,7 @@ const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
 >(({ className = '', ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator ref={ref} className={`-mx-1 my-1 h-px bg-slate-700/60 ${className}`} {...props} />
+  <DropdownMenuPrimitive.Separator ref={ref} className={`-mx-1 my-1 h-px bg-slate-200 dark:bg-slate-700/60 ${className}`} {...props} />
 ))
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 
@@ -51,9 +51,9 @@ const DropdownMenuSubTrigger = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & { inset?: boolean }
 >(({ className = '', inset, children, ...props }, ref) => (
   <DropdownMenuPrimitive.SubTrigger ref={ref}
-    className={`flex cursor-default select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none focus:bg-slate-800 data-[state=open]:bg-slate-800 ${inset ? 'pl-8' : ''} ${className}`}
+    className={`flex cursor-default select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none focus:bg-slate-100 dark:focus:bg-slate-800 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 ${inset ? 'pl-8' : ''} ${className}`}
     {...props}>
-    {children}<ChevronRight className="ml-auto h-4 w-4 text-slate-500" />
+    {children}<ChevronRight className="ml-auto h-4 w-4 text-slate-400" />
   </DropdownMenuPrimitive.SubTrigger>
 ))
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName
@@ -71,10 +71,10 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
 >(({ className = '', children, checked, ...props }, ref) => (
   <DropdownMenuPrimitive.CheckboxItem ref={ref}
-    className={`relative flex cursor-default select-none items-center rounded-lg py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-slate-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-40 ${className}`}
+    className={`relative flex cursor-default select-none items-center rounded-lg py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-slate-100 dark:focus:bg-slate-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-40 ${className}`}
     checked={checked} {...props}>
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <DropdownMenuPrimitive.ItemIndicator><Check className="h-4 w-4 text-blue-400" /></DropdownMenuPrimitive.ItemIndicator>
+      <DropdownMenuPrimitive.ItemIndicator><Check className="h-4 w-4 text-blue-500 dark:text-blue-400" /></DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
   </DropdownMenuPrimitive.CheckboxItem>
@@ -86,10 +86,10 @@ const DropdownMenuRadioItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
 >(({ className = '', children, ...props }, ref) => (
   <DropdownMenuPrimitive.RadioItem ref={ref}
-    className={`relative flex cursor-default select-none items-center rounded-lg py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-slate-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-40 ${className}`}
+    className={`relative flex cursor-default select-none items-center rounded-lg py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-slate-100 dark:focus:bg-slate-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-40 ${className}`}
     {...props}>
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <DropdownMenuPrimitive.ItemIndicator><Circle className="h-2 w-2 fill-blue-400 text-blue-400" /></DropdownMenuPrimitive.ItemIndicator>
+      <DropdownMenuPrimitive.ItemIndicator><Circle className="h-2 w-2 fill-blue-500 dark:fill-blue-400 text-blue-500 dark:text-blue-400" /></DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
   </DropdownMenuPrimitive.RadioItem>

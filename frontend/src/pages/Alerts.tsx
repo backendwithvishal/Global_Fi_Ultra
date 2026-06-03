@@ -25,25 +25,21 @@ export function Alerts() {
     : alerts.filter(a => !a.isActive && !a.isTriggered)
 
   const handleDelete = async (id: string) => {
-    setDel(id)
-    await deleteAlert(id)
-    setDel(null)
+    setDel(id); await deleteAlert(id); setDel(null)
     toast.success('Alert deleted')
   }
 
   return (
-    <div className="p-5 sm:p-6 max-w-[1200px] mx-auto page-enter">
+    <div className="p-5 sm:p-6 max-w-[1200px] mx-auto page-enter animate-fade-in">
       <div className="flex items-start justify-between gap-4 mb-5">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold text-white">Price Alerts</h1>
+            <h1 className="text-xl font-bold text-slate-900 dark:text-white">Price Alerts</h1>
             {usingMock && <Badge variant="amber">Demo</Badge>}
           </div>
           <p className="text-xs text-slate-500 mt-0.5">Get notified when assets hit your target prices</p>
         </div>
-        <Button size="sm" onClick={() => setCreate(true)} icon={<Plus className="h-3.5 w-3.5" />}>
-          New Alert
-        </Button>
+        <Button size="sm" onClick={() => setCreate(true)} icon={<Plus className="h-3.5 w-3.5" />}>New Alert</Button>
       </div>
 
       <AlertStats alerts={alerts} activeTab={tab} onTab={setTab} loading={loading} />

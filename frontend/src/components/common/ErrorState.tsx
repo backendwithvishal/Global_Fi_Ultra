@@ -27,11 +27,11 @@ export function ErrorState({
       aria-live="assertive"
     >
       <div className="mb-3 p-2.5 rounded-xl bg-red-500/10">
-        <AlertCircle className="h-5 w-5 text-red-400" aria-hidden="true" />
+        <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400" aria-hidden="true" />
       </div>
-      <p className="text-sm font-semibold text-foreground mb-1">{title}</p>
+      <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">{title}</p>
       {message && (
-        <p className="text-xs text-muted-foreground max-w-sm mb-4 leading-relaxed">{message}</p>
+        <p className="text-xs text-slate-500 max-w-sm mb-4 leading-relaxed">{message}</p>
       )}
       {onRetry && (
         <Button size="sm" variant="outline" onClick={onRetry} className="gap-1.5">

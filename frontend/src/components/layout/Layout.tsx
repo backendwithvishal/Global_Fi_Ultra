@@ -15,20 +15,17 @@ export function Layout({ actionSlot }: LayoutProps) {
   const { connected, systemWarnings } = useSharedWebSocket()
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0B1220]">
-      {/* Desktop sidebar */}
+    <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-[#0B1220]">
       <div className="hidden md:flex">
         <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(c => !c)} />
       </div>
 
-      {/* Mobile sidebar */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="p-0 w-[220px] border-r border-slate-800 bg-[#0D1526]">
+        <SheetContent side="left" className="p-0 w-[220px] border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0D1526]">
           <Sidebar collapsed={false} onToggle={() => setMobileOpen(false)} />
         </SheetContent>
       </Sheet>
 
-      {/* Main */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <TopBar
           connected={connected}

@@ -20,7 +20,7 @@ const NotFound   = lazy(() => import('@/pages/NotFound').then(m => ({ default: m
 
 function PageLoader() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#0B1220]">
+    <div className="flex items-center justify-center min-h-screen bg-slate-100 dark:bg-[#0B1220]">
       <div className="flex flex-col items-center gap-3">
         <div className="w-8 h-8 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
         <p className="text-xs text-slate-500">Loading…</p>
@@ -35,13 +35,11 @@ export default function App() {
       <ToastProvider>
         <BrowserRouter>
           <Routes>
-            {/* Auth */}
             <Route path="/login"    element={<Suspense fallback={<PageLoader />}><Login /></Suspense>} />
             <Route path="/register" element={<Suspense fallback={<PageLoader />}><Register /></Suspense>} />
 
-            {/* App shell */}
             <Route element={<AppLayout />}>
-              <Route index           element={<Suspense fallback={<PageLoader />}><Dashboard /></Suspense>} />
+              <Route index              element={<Suspense fallback={<PageLoader />}><Dashboard /></Suspense>} />
               <Route path="/markets"    element={<Suspense fallback={<PageLoader />}><Markets /></Suspense>} />
               <Route path="/assets"     element={<Suspense fallback={<PageLoader />}><Assets /></Suspense>} />
               <Route path="/watchlists" element={<Suspense fallback={<PageLoader />}><Watchlists /></Suspense>} />
@@ -53,7 +51,6 @@ export default function App() {
               <Route path="/settings"   element={<Suspense fallback={<PageLoader />}><Settings /></Suspense>} />
             </Route>
 
-            {/* 404 */}
             <Route path="*" element={<Suspense fallback={<PageLoader />}><NotFound /></Suspense>} />
           </Routes>
         </BrowserRouter>

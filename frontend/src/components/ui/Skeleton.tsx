@@ -18,7 +18,7 @@ export function Skeleton({ className = '', lines, height = 'h-4', ...props }: Sk
 
 export function SkeletonCard({ rows = 3 }: { rows?: number }) {
   return (
-    <div className="bg-[#131D2E] border border-slate-700/50 rounded-xl p-5 space-y-3">
+    <div className="bg-white dark:bg-[#131D2E] border border-slate-200 dark:border-slate-700/50 rounded-xl p-5 space-y-3">
       <div className="flex items-center justify-between">
         <Skeleton className="h-4 w-28" /><Skeleton className="h-4 w-16" />
       </div>
@@ -32,7 +32,7 @@ export function SkeletonCard({ rows = 3 }: { rows?: number }) {
 
 export function SkeletonRow() {
   return (
-    <div className="flex items-center gap-4 py-3 border-b border-slate-700/40">
+    <div className="flex items-center gap-4 py-3 border-b border-slate-100 dark:border-slate-700/40">
       <Skeleton className="h-8 w-8 rounded-full shrink-0" />
       <div className="flex-1 space-y-1.5">
         <Skeleton className="h-3.5 w-24" /><Skeleton className="h-3 w-16" />

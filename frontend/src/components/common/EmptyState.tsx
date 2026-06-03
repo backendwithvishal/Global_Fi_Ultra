@@ -21,11 +21,11 @@ export function EmptyState({ icon, title, description, action, className }: Empt
       role="status"
     >
       {icon && (
-        <div className="mb-4 p-4 rounded-2xl bg-slate-800/60 text-slate-500" aria-hidden="true">
+        <div className="mb-4 p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500" aria-hidden="true">
           {icon}
         </div>
       )}
-      <p className="text-sm font-semibold text-slate-200 mb-1">{title}</p>
+      <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1">{title}</p>
       {description && (
         <p className="text-xs text-slate-500 max-w-xs leading-relaxed mb-4">{description}</p>
       )}

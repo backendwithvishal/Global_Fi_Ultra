@@ -14,10 +14,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const V: Record<Variant, string> = {
   primary: 'bg-blue-600 hover:bg-blue-500 text-white border-transparent shadow-lg shadow-blue-600/20',
   danger:  'bg-red-600 hover:bg-red-500 text-white border-transparent',
-  ghost:   'bg-transparent border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white',
+  ghost:   'bg-transparent border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-400 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white',
   success: 'bg-emerald-600 hover:bg-emerald-500 text-white border-transparent',
   warning: 'bg-amber-600 hover:bg-amber-500 text-white border-transparent',
-  outline: 'bg-transparent border-slate-700 hover:border-slate-500 text-slate-400 hover:text-slate-200',
+  outline: 'bg-transparent border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200',
 }
 const S: Record<Size, string> = {
   sm: 'h-7 px-3 text-xs gap-1.5', md: 'h-9 px-4 text-sm gap-2',
@@ -27,7 +27,7 @@ const S: Record<Size, string> = {
 export function Button({ variant = 'primary', size = 'md', loading = false, icon, children, className = '', disabled, ...props }: ButtonProps) {
   return (
     <button
-      className={`inline-flex items-center justify-center rounded-lg border font-medium transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1220] disabled:pointer-events-none disabled:opacity-40 ${V[variant]} ${S[size]} ${className}`}
+      className={`inline-flex items-center justify-center rounded-lg border font-medium transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-[#0B1220] disabled:pointer-events-none disabled:opacity-40 ${V[variant]} ${S[size]} ${className}`}
       disabled={disabled || loading}
       aria-busy={loading}
       {...props}
