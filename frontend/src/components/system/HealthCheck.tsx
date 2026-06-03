@@ -30,7 +30,7 @@ export function HealthCheck({
       {/* Health card */}
       <div className={cardCls}>
         <div className="flex items-center gap-2 mb-4">
-          <Activity className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+          <Activity className="h-4 w-4 text-blue-600 dark:text-blue-400" />
           <h3 className="text-sm font-semibold text-[var(--text-1)]">Health Check</h3>
         </div>
         {health ? (
@@ -63,7 +63,7 @@ export function HealthCheck({
       {/* Readiness card */}
       <div className={cardCls}>
         <div className="flex items-center gap-2 mb-4">
-          <Cpu className="h-4 w-4 text-purple-400" />
+          <Cpu className="h-4 w-4 text-purple-700 dark:text-purple-400" />
           <h3 className="text-sm font-semibold text-[var(--text-1)]">Readiness</h3>
         </div>
         {ready ? (

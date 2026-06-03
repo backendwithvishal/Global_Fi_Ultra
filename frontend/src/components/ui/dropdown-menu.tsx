@@ -26,7 +26,7 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & { inset?: boolean }
 >(({ className = '', inset, ...props }, ref) => (
-  <DropdownMenuPrimitive.Item ref={ref} className={`${itemCls} ${inset ? 'pl-8' : ''} [&_svg]:size-4 [&_svg]:text-slate-400 dark:[&_svg]:text-slate-500 ${className}`} {...props} />
+  <DropdownMenuPrimitive.Item ref={ref} className={`${itemCls} ${inset ? 'pl-8' : ''} [&_svg]:size-4 [&_svg]:text-slate-500 dark:[&_svg]:text-slate-400 ${className}`} {...props} />
 ))
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
 
@@ -53,7 +53,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger ref={ref}
     className={`flex cursor-default select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none focus:bg-slate-100 dark:focus:bg-slate-800 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 ${inset ? 'pl-8' : ''} ${className}`}
     {...props}>
-    {children}<ChevronRight className="ml-auto h-4 w-4 text-slate-400" />
+    {children}<ChevronRight className="ml-auto h-4 w-4 text-slate-500 dark:text-slate-400" />
   </DropdownMenuPrimitive.SubTrigger>
 ))
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName

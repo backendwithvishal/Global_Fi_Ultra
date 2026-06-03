@@ -12,23 +12,23 @@ interface ToastContainerProps {
 const config: Record<string, { icon: React.ElementType; cls: string; iconCls: string }> = {
   success: {
     icon:    CheckCircle2,
-    cls:     'border-emerald-500/20 bg-emerald-500/10 text-emerald-300',
-    iconCls: 'text-emerald-400',
+    cls:     'border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-200',
+    iconCls: 'text-emerald-600 dark:text-emerald-400',
   },
   error: {
     icon:    AlertCircle,
-    cls:     'border-red-500/20 bg-red-500/10 text-red-300',
-    iconCls: 'text-red-400',
+    cls:     'border-red-500/30 bg-red-50 dark:bg-red-500/10 text-red-800 dark:text-red-200',
+    iconCls: 'text-red-600 dark:text-red-400',
   },
   warning: {
     icon:    AlertTriangle,
-    cls:     'border-amber-500/20 bg-amber-500/10 text-amber-300',
-    iconCls: 'text-amber-400',
+    cls:     'border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-200',
+    iconCls: 'text-amber-600 dark:text-amber-400',
   },
   info: {
     icon:    Info,
-    cls:     'border-blue-500/20 bg-blue-500/10 text-blue-300',
-    iconCls: 'text-blue-400',
+    cls:     'border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 text-blue-800 dark:text-blue-200',
+    iconCls: 'text-blue-600 dark:text-blue-400',
   },
 }
 

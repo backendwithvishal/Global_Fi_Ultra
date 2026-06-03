@@ -191,7 +191,7 @@ export function AIInsights() {
                         className="absolute -top-1 -right-8 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                       >
                         {copiedId === msg.id
-                          ? <Check className="h-3 w-3 text-emerald-400" />
+                          ? <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
                           : <Copy className="h-3 w-3 text-[var(--text-3)]" />
                         }
                       </button>

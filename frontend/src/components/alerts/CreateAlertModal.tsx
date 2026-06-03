@@ -65,7 +65,7 @@ export function CreateAlertModal({ onClose, onCreated, currentUserId }: Props) {
             <div>
               <label className={labelCls}>Symbol *</label>
               <input {...register('symbol')} placeholder="AAPL" className={inputCls} onChange={e => setValue('symbol', e.target.value.toUpperCase())} />
-              {errors.symbol && <p className="text-xs text-red-400 mt-1">{errors.symbol.message}</p>}
+              {errors.symbol && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.symbol.message}</p>}
             </div>
             <div>
               <label className={labelCls}>Asset Type</label>
@@ -87,14 +87,14 @@ export function CreateAlertModal({ onClose, onCreated, currentUserId }: Props) {
             <div>
               <label className={labelCls}>Target Price *</label>
               <input type="number" step="0.01" placeholder="150.00" className={inputCls} {...register('targetPrice', { valueAsNumber: true })} />
-              {errors.targetPrice && <p className="text-xs text-red-400 mt-1">{errors.targetPrice.message}</p>}
+              {errors.targetPrice && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.targetPrice.message}</p>}
             </div>
           </div>
 
           <div>
             <label className={labelCls}>User ID *</label>
             <input {...register('userId')} placeholder="MongoDB ObjectID" className={inputCls} />
-            {errors.userId && <p className="text-xs text-red-400 mt-1">{errors.userId.message}</p>}
+            {errors.userId && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.userId.message}</p>}
           </div>
 
           <div>

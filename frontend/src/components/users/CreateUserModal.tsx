@@ -66,23 +66,23 @@ export function CreateUserModal({ onClose, onCreated }: Props) {
             <div>
               <label className={labelCls}>First Name *</label>
               <input {...register('firstName')} placeholder="John" className={inputCls} />
-              {errors.firstName && <p className="text-xs text-red-400 mt-1">{errors.firstName.message}</p>}
+              {errors.firstName && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.firstName.message}</p>}
             </div>
             <div>
               <label className={labelCls}>Last Name *</label>
               <input {...register('lastName')} placeholder="Doe" className={inputCls} />
-              {errors.lastName && <p className="text-xs text-red-400 mt-1">{errors.lastName.message}</p>}
+              {errors.lastName && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.lastName.message}</p>}
             </div>
           </div>
           <div>
             <label className={labelCls}>Email *</label>
             <input type="email" {...register('email')} placeholder="john@example.com" className={inputCls} />
-            {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.email.message}</p>}
           </div>
           <div>
             <label className={labelCls}>Password</label>
             <input type="password" {...register('password')} placeholder="Optional…" className={inputCls} />
-            {errors.password && <p className="text-xs text-red-400 mt-1">{errors.password.message}</p>}
+            {errors.password && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.password.message}</p>}
           </div>
           <div className="flex gap-3 pt-1">
             <Button type="button" variant="ghost" onClick={onClose} className="flex-1">Cancel</Button>

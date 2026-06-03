@@ -144,8 +144,8 @@ export function TopBar({ connected, warningCount, onMobileMenu, actionSlot }: To
         className="flex items-center justify-center h-8 w-8 rounded-lg text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
       >
         {isDark
-          ? <Sun  className="h-4 w-4 text-amber-400" />
-          : <Moon className="h-4 w-4 text-blue-500" />
+          ? <Sun  className="h-4 w-4 text-amber-500 dark:text-amber-400" />
+          : <Moon className="h-4 w-4 text-blue-600 dark:text-blue-500" />
         }
       </button>
 
@@ -188,7 +188,7 @@ export function TopBar({ connected, warningCount, onMobileMenu, actionSlot }: To
                   </button>
                   <button
                     onClick={() => { logout(); setUserMenuOpen(false) }}
-                    className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-500/10 transition-colors"
+                    className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
                   >
                     <LogOut className="h-4 w-4" />Sign out
                   </button>

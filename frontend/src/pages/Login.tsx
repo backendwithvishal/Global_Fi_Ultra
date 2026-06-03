@@ -100,7 +100,7 @@ export function Login() {
                 autoComplete="email"
                 className={inputCls}
               />
-              {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
+              {errors.email && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.email.message}</p>}
             </div>
 
             <div>
@@ -122,7 +122,7 @@ export function Login() {
                   {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
-              {errors.password && <p className="text-xs text-red-400 mt-1">{errors.password.message}</p>}
+              {errors.password && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.password.message}</p>}
             </div>
 
             <Button type="submit" loading={isSubmitting} className="w-full h-10 gap-2">

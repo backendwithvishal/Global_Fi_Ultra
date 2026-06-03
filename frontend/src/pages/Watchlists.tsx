@@ -126,7 +126,7 @@ export function Watchlists() {
       ) : watchlists.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-[#131D2E] border border-slate-200/80 dark:border-[var(--border)] rounded-xl text-center">
           <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/60 mb-4">
-            <Star className="h-8 w-8 text-slate-400 dark:text-[var(--text-3)]" />
+            <Star className="h-8 w-8 text-slate-500 dark:text-[var(--text-3)]" />
           </div>
           <p className="text-sm font-medium text-[var(--text-1)]">No watchlists yet</p>
           <p className="text-xs text-[var(--text-3)] mt-1">Create your first watchlist to start tracking assets.</p>
@@ -207,7 +207,7 @@ export function Watchlists() {
               <div>
                 <label className={labelCls}>Name *</label>
                 <input {...cf.register('name')} placeholder="My Portfolio" className={inputCls} />
-                {cf.formState.errors.name && <p className="text-xs text-red-400 mt-1">{cf.formState.errors.name.message}</p>}
+                {cf.formState.errors.name && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{cf.formState.errors.name.message}</p>}
               </div>
               <div>
                 <label className={labelCls}>Description</label>
@@ -216,7 +216,7 @@ export function Watchlists() {
               <div>
                 <label className={labelCls}>User ID *</label>
                 <input {...cf.register('userId')} placeholder="MongoDB ObjectID" className={inputCls} />
-                {cf.formState.errors.userId && <p className="text-xs text-red-400 mt-1">{cf.formState.errors.userId.message}</p>}
+                {cf.formState.errors.userId && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{cf.formState.errors.userId.message}</p>}
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" {...cf.register('isPublic')} className="w-4 h-4 rounded" />
@@ -244,7 +244,7 @@ export function Watchlists() {
               <div>
                 <label className={labelCls}>Symbol *</label>
                 <input {...af.register('symbol')} placeholder="AAPL, BTC…" className={inputCls} onChange={e => af.setValue('symbol', e.target.value.toUpperCase())} />
-                {af.formState.errors.symbol && <p className="text-xs text-red-400 mt-1">{af.formState.errors.symbol.message}</p>}
+                {af.formState.errors.symbol && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{af.formState.errors.symbol.message}</p>}
               </div>
               <div>
                 <label className={labelCls}>Notes</label>

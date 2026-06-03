@@ -51,7 +51,7 @@ export function Admin() {
           {/* Metrics card — Level 2 */}
           <div className="bg-white dark:bg-[#131D2E] border border-slate-200/80 dark:border-[var(--border)] rounded-xl p-5">
             <div className="flex items-center gap-2 mb-4">
-              <BarChart3 className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+              <BarChart3 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
               <h3 className="text-sm font-semibold text-[var(--text-1)]">Metrics (24h)</h3>
             </div>
 

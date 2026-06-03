@@ -62,9 +62,9 @@ export function AlertList({ alerts, loading, onDelete, onToggle, deletingId }: A
               : 'bg-slate-100 dark:bg-slate-800/40'
             }`}>
               {a.isTriggered
-                ? <CheckCircle2 className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+                ? <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 : a.isActive
-                ? <Bell className="h-4 w-4 text-emerald-500 dark:text-emerald-400" />
+                ? <Bell className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 : <BellOff className="h-4 w-4 text-[var(--text-3)]" />
               }
             </div>
@@ -82,7 +82,7 @@ export function AlertList({ alerts, loading, onDelete, onToggle, deletingId }: A
                   <span>Current: <span className="text-[var(--text-2)]">{fmtUSD(a.currentPrice)}</span></span>
                 )}
                 {a.isTriggered && a.triggeredAt && (
-                  <span className="text-blue-500 dark:text-blue-400 flex items-center gap-1">
+                  <span className="text-blue-600 dark:text-blue-400 flex items-center gap-1">
                     <Clock className="h-3 w-3" />Triggered {relTime(a.triggeredAt)} @ {fmtUSD(a.triggeredPrice)}
                   </span>
                 )}

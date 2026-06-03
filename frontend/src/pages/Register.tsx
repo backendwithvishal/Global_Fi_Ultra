@@ -79,7 +79,7 @@ export function Register() {
                   {f === 'firstName' ? 'First' : 'Last'} Name
                 </label>
                 <input {...register(f)} placeholder={f === 'firstName' ? 'John' : 'Doe'} className={inputCls} />
-                {errors[f] && <p className="text-xs text-red-400 mt-1">{errors[f]?.message}</p>}
+                {errors[f] && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors[f]?.message}</p>}
               </div>
             ))}
           </div>
@@ -87,7 +87,7 @@ export function Register() {
           <div>
             <label className="block text-xs font-medium text-[var(--text-2)] mb-1.5 uppercase tracking-wider">Email</label>
             <input type="email" {...register('email')} placeholder="you@example.com" className={inputCls} />
-            {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
@@ -123,7 +123,7 @@ export function Register() {
           <div>
             <label className="block text-xs font-medium text-[var(--text-2)] mb-1.5 uppercase tracking-wider">Confirm Password</label>
             <input type="password" {...register('confirm')} placeholder="••••••••" className={inputCls} />
-            {errors.confirm && <p className="text-xs text-red-400 mt-1">{errors.confirm.message}</p>}
+            {errors.confirm && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.confirm.message}</p>}
           </div>
 
           <Button type="submit" loading={isSubmitting} className="w-full h-10 gap-2">

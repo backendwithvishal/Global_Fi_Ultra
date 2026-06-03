@@ -12,12 +12,12 @@ export function AlertStats({ alerts, activeTab, onTab, loading }: AlertStatsProp
   const stats = [
     {
       key: 'active',    label: 'Active',    count: active,
-      icon: Bell,         iconColor: 'text-emerald-500 dark:text-emerald-400',
+      icon: Bell,         iconColor: 'text-emerald-600 dark:text-emerald-400',
       activeBg: 'bg-emerald-500/10 border-emerald-500/20',
     },
     {
       key: 'triggered', label: 'Triggered', count: triggered,
-      icon: CheckCircle2, iconColor: 'text-blue-500 dark:text-blue-400',
+      icon: CheckCircle2, iconColor: 'text-blue-600 dark:text-blue-400',
       activeBg: 'bg-blue-500/10 border-blue-500/20',
     },
     {

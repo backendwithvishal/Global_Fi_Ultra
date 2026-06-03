@@ -124,7 +124,7 @@ export function Assets() {
       ) : assets.length === 0 ? (
         <div className={`flex flex-col items-center justify-center py-16 ${cardCls} text-center`}>
           <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/60 mb-4">
-            <BarChart3 className="h-8 w-8 text-slate-400 dark:text-[var(--text-3)]" />
+            <BarChart3 className="h-8 w-8 text-slate-500 dark:text-[var(--text-3)]" />
           </div>
           <p className="text-sm font-medium text-[var(--text-1)]">No assets found</p>
           <p className="text-xs text-[var(--text-3)] mt-1">
@@ -188,7 +188,7 @@ export function Assets() {
                 <div>
                   <label className={labelCls}>Symbol *</label>
                   <input {...register('symbol')} placeholder="AAPL" className={inputCls} onChange={e => setValue('symbol', e.target.value.toUpperCase())} />
-                  {errors.symbol && <p className="text-xs text-red-400 mt-1">{errors.symbol.message}</p>}
+                  {errors.symbol && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.symbol.message}</p>}
                 </div>
                 <div>
                   <label className={labelCls}>Type</label>
@@ -200,7 +200,7 @@ export function Assets() {
               <div>
                 <label className={labelCls}>Name *</label>
                 <input {...register('name')} placeholder="Apple Inc." className={inputCls} />
-                {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name.message}</p>}
+                {errors.name && <p className="text-xs text-red-600 dark:text-red-400 mt-1">{errors.name.message}</p>}
               </div>
               <div>
                 <label className={labelCls}>Currency</label>

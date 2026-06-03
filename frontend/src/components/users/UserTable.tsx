@@ -25,7 +25,7 @@ export function UserTable({ users, loading, deletingId, onDelete }: UserTablePro
   if (users.length === 0) return (
     <div className="flex flex-col items-center justify-center py-16 text-center bg-white dark:bg-[#131D2E] border border-slate-200/80 dark:border-[var(--border)] rounded-xl">
       <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/60 mb-4">
-        <UserX className="h-8 w-8 text-slate-400 dark:text-[var(--text-3)]" />
+        <UserX className="h-8 w-8 text-slate-500 dark:text-[var(--text-3)]" />
       </div>
       <p className="text-sm font-medium text-[var(--text-1)]">No users found</p>
     </div>
@@ -60,7 +60,7 @@ export function UserTable({ users, loading, deletingId, onDelete }: UserTablePro
               >
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600/20 text-blue-600 dark:text-blue-400 font-bold text-xs shrink-0">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-400 font-bold text-xs shrink-0">
                       {u.firstName[0]}{u.lastName[0]}
                     </div>
                     <span className="font-semibold text-[var(--text-1)]">{u.firstName} {u.lastName}</span>

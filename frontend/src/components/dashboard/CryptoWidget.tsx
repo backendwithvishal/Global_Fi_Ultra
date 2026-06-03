@@ -56,7 +56,7 @@ export function CryptoWidget({ cryptos = [], loading }: CryptoWidgetProps) {
         ) : cryptos.slice(0, 6).map(c => {
           const pos = c.price_change_percentage_24h >= 0
           const sym = c.symbol.toUpperCase()
-          const coinStyle = COIN_STYLES[sym] ?? { bg: 'bg-slate-500/20', text: 'text-slate-400' }
+          const coinStyle = COIN_STYLES[sym] ?? { bg: 'bg-slate-500/20', text: 'text-slate-600 dark:text-slate-400' }
 
           return (
             <div
