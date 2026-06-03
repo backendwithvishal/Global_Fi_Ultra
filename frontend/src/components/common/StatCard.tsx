@@ -37,14 +37,15 @@ export function StatCard({
       whileTap={onClick ? { scale: 0.99 } : undefined}
       transition={{ duration: 0.15 }}
     >
+      {/* Level 2 card */}
       <div
         className={cn(
           'relative rounded-xl border bg-white dark:bg-[#131D2E] overflow-hidden',
           accent === 'green'  ? 'border-emerald-500/20' :
           accent === 'red'    ? 'border-red-500/20' :
           accent === 'purple' ? 'border-purple-500/20' :
-          'border-slate-200 dark:border-slate-700/50',
-          onClick && 'cursor-pointer hover:border-slate-300 dark:hover:border-slate-600 transition-colors',
+          'border-slate-200/80 dark:border-[var(--border)]',
+          onClick && 'cursor-pointer hover:bg-slate-50 dark:hover:bg-[var(--bg-raised)] transition-colors',
           className
         )}
         onClick={onClick}
@@ -62,24 +63,35 @@ export function StatCard({
           ) : (
             <>
               <div className="flex items-start justify-between mb-2.5">
-                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">{title}</p>
-                {icon && <div className="text-slate-400 dark:text-slate-600 -mt-0.5" aria-hidden="true">{icon}</div>}
+                <p className="text-xs font-medium text-[var(--text-2)] uppercase tracking-wider">{title}</p>
+                {icon && (
+                  <div className="text-[var(--text-3)] -mt-0.5 opacity-50" aria-hidden="true">{icon}</div>
+                )}
               </div>
-              <p className="text-2xl font-bold tracking-tight tabular-nums text-slate-900 dark:text-white" aria-label={`${title}: ${displayValue}`}>
+
+              {/* Price/number — font-mono per spec */}
+              <p className="text-2xl font-bold font-mono tracking-tight tabular-nums text-[var(--text-1)]"
+                aria-label={`${title}: ${displayValue}`}>
                 {displayValue}
               </p>
+
               {change !== undefined && (
                 <div className="flex items-center gap-1.5 mt-2">
                   <span className={cn(
-                    'inline-flex items-center gap-1 text-xs font-medium px-1.5 py-0.5 rounded-md',
+                    'inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full',
                     isPos && 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
                     isNeg && 'bg-red-500/10 text-red-600 dark:text-red-400',
-                    !isPos && !isNeg && 'bg-slate-100 dark:bg-slate-700/40 text-slate-500'
+                    !isPos && !isNeg && 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
                   )}>
-                    {isPos ? <TrendingUp className="h-3 w-3" /> : isNeg ? <TrendingDown className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
+                    {isPos
+                      ? <TrendingUp  className="h-3 w-3" />
+                      : isNeg
+                      ? <TrendingDown className="h-3 w-3" />
+                      : <Minus className="h-3 w-3" />
+                    }
                     {formatPercent(change)}
                   </span>
-                  {changeLabel && <span className="text-xs text-slate-500">{changeLabel}</span>}
+                  {changeLabel && <span className="text-xs text-[var(--text-3)]">{changeLabel}</span>}
                 </div>
               )}
             </>
