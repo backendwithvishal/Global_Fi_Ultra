@@ -6,6 +6,7 @@ import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { useWebSocket } from '@/hooks/useWebSocket'
 import { useApp } from '@/context/AppContext'
 import { SidebarProvider, useSidebar } from '@/context/SidebarContext'
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 import type { FinancialDataResponse, AIMessage } from '@/types'
 
 /* ── Shared WebSocket Context ── */
@@ -65,13 +66,15 @@ function AppShell() {
             warningCount={ws.systemWarnings.length}
             onMobileMenu={() => setMobileOpen(true)}
           />
-          {/* Page scroll area */}
+          {/* Page scroll area — wrapped in route-level boundary */}
           <main
             className="flex-1 overflow-y-auto overflow-x-hidden"
             id="main-content"
             role="main"
           >
-            <Outlet />
+            <ErrorBoundary>
+              <Outlet />
+            </ErrorBoundary>
           </main>
         </div>
       </div>
