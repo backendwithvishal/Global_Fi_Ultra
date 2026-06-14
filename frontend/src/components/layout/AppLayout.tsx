@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
@@ -39,6 +39,21 @@ function AppShell() {
   const { isCollapsed, toggle } = useSidebar()
   const [mobileOpen, setMobileOpen] = useState(false)
   const ws = useWebSocket({ autoConnect: true })
+  const { token } = useApp()
+  const { pathname } = useLocation()
+
+  const isPublicHome = pathname === '/' && !token
+
+  if (isPublicHome) {
+    return (
+      <WSCtx.Provider value={ws}>
+        <CommandPalette />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
+      </WSCtx.Provider>
+    )
+  }
 
   return (
     <WSCtx.Provider value={ws}>

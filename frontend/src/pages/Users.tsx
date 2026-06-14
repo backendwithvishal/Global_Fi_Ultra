@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Plus } from 'lucide-react'
-import { AnimatePresence } from 'framer-motion'
+import { Plus, Users as UsersIcon, Search } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { UserSearch } from '@/components/users/UserSearch'
 import { UserTable } from '@/components/users/UserTable'
 import { CreateUserModal } from '@/components/users/CreateUserModal'
@@ -29,29 +29,60 @@ export function Users() {
   }
 
   return (
-    <div className="p-5 sm:p-6 max-w-[1200px] mx-auto page-enter animate-fade-in">
-      <div className="flex items-start justify-between gap-4 mb-5">
+    <div className="p-5 sm:p-8 max-w-[1200px] mx-auto page-enter animate-fade-in">
+
+      {/* ── Header ── */}
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
+      >
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-semibold text-[var(--text-1)]">Users</h1>
-            {usingMock && <Badge variant="blue">Demo</Badge>}
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="text-2xl font-bold text-[var(--text-1)] tracking-tight">Users</h1>
+            {usingMock && <Badge variant="amber" dot>Demo</Badge>}
+            {!loading && (
+              <span className="text-xs text-[var(--text-3)] bg-[var(--bg-3)] border border-[var(--border-2)] px-2.5 py-1 rounded-full">
+                {users.length} total
+              </span>
+            )}
           </div>
-          <p className="text-xs text-[var(--text-3)] mt-0.5">Manage user accounts</p>
+          <p className="text-sm text-[var(--text-3)]">Manage user accounts and permissions</p>
         </div>
         <Button size="sm" onClick={() => setCreate(true)} icon={<Plus className="h-3.5 w-3.5" />}>
           New User
         </Button>
-      </div>
+      </motion.div>
 
-      <div className="mb-4"><UserSearch value={search} onChange={setSearch} /></div>
-      <UserTable users={filtered} loading={loading} deletingId={deletingId} onDelete={handleDelete} />
+      {/* ── Search ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.05 }}
+        className="mb-4"
+      >
+        <UserSearch value={search} onChange={setSearch} />
+      </motion.div>
 
+      {/* ── Table ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.1 }}
+      >
+        <UserTable users={filtered} loading={loading} deletingId={deletingId} onDelete={handleDelete} />
+      </motion.div>
+
+      {/* ── Pagination ── */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-3 mt-5">
+        <div className="flex items-center justify-center gap-3 mt-6">
           <Button variant="ghost" size="sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
             Previous
           </Button>
-          <span className="text-sm text-[var(--text-2)]">Page {page} of {totalPages}</span>
+          <span className="text-sm text-[var(--text-2)] px-3 py-1.5 rounded-lg bg-[var(--bg-3)] border border-[var(--border-2)]">
+            Page {page} of {totalPages}
+          </span>
           <Button variant="ghost" size="sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
             Next
           </Button>

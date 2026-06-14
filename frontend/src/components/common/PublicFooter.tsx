@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Zap, Mail, Twitter, Github, Linkedin, ArrowRight } from 'lucide-react'
+import { Zap, Mail, Share2, Code2, Link2, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const FOOTER_LINKS = {
@@ -34,10 +34,10 @@ const FOOTER_LINKS = {
 }
 
 const SOCIAL = [
-  { icon: Twitter,  href: '#', label: 'Twitter' },
-  { icon: Github,   href: '#', label: 'GitHub' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Mail,     href: '/contact', label: 'Contact' },
+  { icon: Share2,  href: '#', label: 'Twitter' },
+  { icon: Code2,   href: '#', label: 'GitHub' },
+  { icon: Link2,   href: '#', label: 'LinkedIn' },
+  { icon: Mail,    href: '/contact', label: 'Contact' },
 ]
 
 const STATS = [
@@ -110,7 +110,7 @@ export function PublicFooter() {
               <h4 className="section-label text-[var(--text-3)] mb-4">{section}</h4>
               <ul className="space-y-3">
                 {links.map((link) => (
-                  <li key={link.href}>
+                  <li key={`${link.href}-${link.label}`}>
                     <Link
                       to={link.href}
                       className="text-sm text-[var(--text-3)] hover:text-[var(--text-1)] transition-colors"

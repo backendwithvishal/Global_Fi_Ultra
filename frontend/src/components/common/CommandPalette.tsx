@@ -57,8 +57,18 @@ export function CommandPalette() {
       }
     }
 
+    const handleCustomToggle = () => {
+      setIsOpen(prev => !prev)
+      setSearch('')
+      setSelectedIndex(0)
+    }
+
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    window.addEventListener('gfu-toggle-command-palette', handleCustomToggle)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('gfu-toggle-command-palette', handleCustomToggle)
+    }
   }, [isOpen, filteredItems, selectedIndex])
 
   // Scroll active item into view

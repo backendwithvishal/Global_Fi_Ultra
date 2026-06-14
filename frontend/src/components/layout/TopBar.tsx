@@ -33,8 +33,6 @@ export function TopBar({ connected, warningCount, onMobileMenu, actionSlot }: To
   const { pathname } = useLocation()
   const { currentUser, logout, isDark, toggleTheme } = useApp()
   const navigate = useNavigate()
-  const [searchOpen, setSearchOpen]   = useState(false)
-  const [searchVal, setSearchVal]     = useState('')
   const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   const meta = PAGE_META[pathname] ?? { title: 'Global-Fi Ultra', subtitle: '' }
@@ -75,60 +73,23 @@ export function TopBar({ connected, warningCount, onMobileMenu, actionSlot }: To
 
       <div className="flex-1" />
 
-      {/* ── Search ── */}
-      <AnimatePresence mode="wait">
-        {searchOpen ? (
-          <motion.div
-            key="search-open"
-            initial={{ width: 0, opacity: 0 }}
-            animate={{ width: 240, opacity: 1 }}
-            exit={{ width: 0, opacity: 0 }}
-            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="relative overflow-hidden"
-          >
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[var(--text-3)]" />
-            <input
-              autoFocus
-              value={searchVal}
-              onChange={e => setSearchVal(e.target.value)}
-              placeholder="Search assets, pages…"
-              className={cn(
-                'w-full h-7 pl-8 pr-8 rounded-md text-xs',
-                'bg-[var(--bg-3)] border border-[var(--border-3)]',
-                'text-[var(--text-1)] placeholder:text-[var(--text-3)]',
-                'focus:outline-none focus:border-[var(--accent)] focus:shadow-[var(--shadow-accent)]',
-                'transition-all duration-150'
-              )}
-            />
-            <button
-              onClick={() => { setSearchOpen(false); setSearchVal('') }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--text-3)] hover:text-[var(--text-2)] transition-colors"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
-          </motion.div>
-        ) : (
-          <motion.button
-            key="search-closed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            onClick={() => setSearchOpen(true)}
-            className={cn(
-              'flex items-center gap-1.5 h-7 px-2.5 rounded-md text-[11px]',
-              'bg-[var(--bg-3)] border border-[var(--border-2)]',
-              'text-[var(--text-3)] hover:text-[var(--text-2)] hover:border-[var(--border-3)]',
-              'transition-all duration-100',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]'
-            )}
-          >
-            <Search className="h-3 w-3" />
-            <span className="hidden sm:inline">Search</span>
-            <kbd className="hidden sm:inline text-[9px] bg-[var(--bg-4)] border border-[var(--border-2)] px-1.5 py-0.5 rounded font-mono leading-none">
-              ⌘K
-            </kbd>
-          </motion.button>
+      {/* ── Search (Command Palette Trigger) ── */}
+      <button
+        onClick={() => window.dispatchEvent(new CustomEvent('gfu-toggle-command-palette'))}
+        className={cn(
+          'flex items-center gap-2 h-7 px-2.5 rounded-md text-[11px]',
+          'bg-[var(--bg-3)] border border-[var(--border-2)]',
+          'text-[var(--text-3)] hover:text-[var(--text-2)] hover:border-[var(--border-3)]',
+          'transition-all duration-100',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]'
         )}
-      </AnimatePresence>
+      >
+        <Search className="h-3.5 w-3.5" />
+        <span className="hidden sm:inline">Search commands…</span>
+        <kbd className="hidden sm:inline text-[9px] bg-[var(--bg-4)] border border-[var(--border-2)] px-1.5 py-0.5 rounded font-mono leading-none">
+          ⌘K
+        </kbd>
+      </button>
 
       {/* ── Connection status ── */}
       <div className={cn(

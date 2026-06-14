@@ -1,12 +1,27 @@
 import React from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, TrendingUp, BarChart3, Star, Bell,
   Sparkles, Users, Activity, Shield, Settings, Zap,
-  ChevronLeft, ChevronRight, CreditCard, Code, HelpCircle
+  ChevronLeft, ChevronRight, CreditCard, Code, HelpCircle,
+  LogOut
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useApp } from '@/context/AppContext'
+
+/* ── Keyboard Shortcut Mapping ── */
+const SHORTCUTS: Record<string, string> = {
+  '/': 'G D',
+  '/markets': 'G M',
+  '/watchlists': 'G W',
+  '/alerts': 'G A',
+  '/ai': 'G I',
+  '/settings/teams': 'G T',
+  '/settings/billing': 'G B',
+  '/settings/developer': 'G K',
+  '/settings': 'G S',
+}
 
 /* ── Nav data ── */
 interface NavItem { label: string; href: string; icon: React.ElementType; badge?: string; badgeColor?: string }
@@ -39,6 +54,7 @@ const SECTION_ADMIN: NavItem[] = [
 /* ── NavItem Row ── */
 function NavItemRow({ item, collapsed, active }: { item: NavItem; collapsed: boolean; active: boolean }) {
   const { label, href, icon: Icon, badge, badgeColor } = item
+  const shortcut = SHORTCUTS[href]
 
   return (
     <NavLink
@@ -114,8 +130,13 @@ function NavItemRow({ item, collapsed, active }: { item: NavItem; collapsed: boo
         )}>
           {label}
           {badge && (
-            <span className="text-[9px] font-bold px-1 rounded bg-[var(--ai-subtle)] text-[var(--ai-bright)]">
+            <span className="text-[9px] font-bold px-1 rounded bg-[var(--ai-subtle)] text-[var(--ai-bright)] ml-1">
               {badge}
+            </span>
+          )}
+          {shortcut && (
+            <span className="text-[9px] font-mono text-[var(--text-3)] bg-[var(--bg-4)] px-1 rounded border border-[var(--border-2)] ml-1.5">
+              {shortcut}
             </span>
           )}
         </div>
@@ -141,6 +162,8 @@ interface SidebarProps { collapsed: boolean; onToggle: () => void }
 
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const { currentUser, logout } = useApp()
 
   function isActive(href: string) {
     return href === '/' ? pathname === '/' : pathname.startsWith(href)
@@ -230,7 +253,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
       {/* ── Settings footer ── */}
       <div className={cn(
-        'border-t border-[var(--border-1)] py-2',
+        'border-t border-[var(--border-1)] py-1.5',
         collapsed ? 'px-1.5' : 'px-2'
       )}>
         <NavLink
@@ -276,6 +299,72 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
           )}
         </NavLink>
       </div>
+
+      {/* ── User Avatar Section ── */}
+      {currentUser && (
+        <div className={cn(
+          'border-t border-[var(--border-1)] py-2.5',
+          collapsed ? 'px-1.5' : 'px-2.5'
+        )}>
+          {collapsed ? (
+            <div className="group relative flex items-center justify-center">
+              <button
+                onClick={() => navigate('/settings')}
+                className={cn(
+                  'flex items-center justify-center w-8 h-8 rounded-full cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-100 border border-[var(--border-2)]',
+                  'bg-gradient-to-br from-[var(--accent)] to-[var(--ai)]',
+                  'text-white text-[10px] font-bold shadow-[var(--shadow-sm)]'
+                )}
+              >
+                {(currentUser.firstName?.[0] || 'U')}{(currentUser.lastName?.[0] || '')}
+              </button>
+
+              {/* Tooltip */}
+              <div className={cn(
+                'pointer-events-none absolute left-full ml-3 z-50',
+                'flex flex-col gap-0.5 px-3 py-2',
+                'bg-[var(--bg-3)] border border-[var(--border-3)]',
+                'rounded-xl text-[11px] font-medium text-[var(--text-1)]',
+                'whitespace-nowrap shadow-[var(--shadow-float)]',
+                'opacity-0 group-hover:opacity-100 transition-opacity duration-150',
+                'translate-x-1 group-hover:translate-x-0',
+              )}>
+                <span className="font-semibold text-white">{currentUser.firstName} {currentUser.lastName}</span>
+                <span className="text-[10px] text-[var(--text-3)]">{currentUser.email}</span>
+                {currentUser.subscriptionTier && (
+                  <span className="mt-1.5 text-[8px] font-bold px-1.5 py-0.5 rounded-full border bg-[var(--accent-subtle)] text-[var(--accent-bright)] border-[rgba(37,99,235,0.2)] self-start leading-none uppercase">
+                    {currentUser.subscriptionTier}
+                  </span>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between gap-2 p-1.5 rounded-xl bg-[var(--bg-2)] border border-[var(--border-2)]">
+              <div className="flex items-center gap-2.5 min-w-0">
+                {/* Avatar */}
+                <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--ai)] text-white text-[10px] font-bold shrink-0 shadow-[var(--shadow-sm)] border border-[var(--border-2)]">
+                  {(currentUser.firstName?.[0] || 'U')}{(currentUser.lastName?.[0] || '')}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[11px] font-semibold text-[var(--text-1)] truncate leading-tight">
+                    {currentUser.firstName} {currentUser.lastName}
+                  </p>
+                  <p className="text-[9px] text-[var(--text-3)] truncate leading-none mt-0.5">
+                    {currentUser.subscriptionTier || 'Free'} Member
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => logout()}
+                title="Sign out"
+                className="p-1 rounded-md text-[var(--text-3)] hover:text-[var(--danger-bright)] hover:bg-[var(--danger-subtle)] transition-colors shrink-0"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* ── Collapse toggle ── */}
       <button
