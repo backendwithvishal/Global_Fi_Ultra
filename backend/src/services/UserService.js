@@ -381,6 +381,109 @@ export class UserService {
             throw error;
         }
     }
+
+    // Generate magic link token and log it
+    async requestMagicLink(email) {
+        try {
+            const user = await this.userRepository.findByEmail(email);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            const magicToken = crypto.randomBytes(32).toString('hex');
+            // Store token in user metadata temporarily
+            user.metadata = {
+                ...user.metadata,
+                magicToken,
+                magicTokenExpires: Date.now() + 900000 // 15 mins expiration
+            };
+            await user.save();
+
+            logger.info(`[MAILER MOCK] Magic Login Link for ${email}: http://localhost:5173/login?magic_token=${magicToken}`);
+            return true;
+        } catch (error) {
+            logger.error('Error in requestMagicLink', { email, error: error.message });
+            throw error;
+        }
+    }
+
+    // Login using magic link token
+    async loginWithMagicLink(token, clientIp = '127.0.0.1', device = 'Unknown') {
+        try {
+            const user = await this.userRepository.findByMagicToken(token);
+            if (!user || !user.metadata?.magicTokenExpires || user.metadata.magicTokenExpires < Date.now()) {
+                throw new Error('Invalid or expired magic link token');
+            }
+
+            // Clear magic token
+            const meta = { ...user.metadata };
+            delete meta.magicToken;
+            delete meta.magicTokenExpires;
+            user.metadata = meta;
+
+            // Log history
+            user.loginHistory.push({
+                ipAddress: clientIp,
+                device,
+                timestamp: new Date()
+            });
+            await user.save();
+
+            const userObj = user.toObject();
+            delete userObj.passwordHash;
+
+            // Generate JWT
+            const jwtToken = jwt.sign(
+                {
+                    userId: userObj._id,
+                    email: userObj.email,
+                    subscriptionTier: userObj.subscriptionTier,
+                },
+                config.security.jwtSecret,
+                { expiresIn: config.security.jwtExpiresIn }
+            );
+
+            // Save active session token hash
+            const tokenHash = crypto.createHash('sha256').update(jwtToken).digest('hex');
+            user.activeSessions.push({
+                tokenHash,
+                device,
+                createdAt: new Date()
+            });
+            await user.save();
+
+            return { token: jwtToken, user: userObj };
+        } catch (error) {
+            logger.error('Error in loginWithMagicLink', { error: error.message });
+            throw error;
+        }
+    }
+
+    // Get active sessions
+    async getActiveSessions(userId) {
+        const user = await this.getUser(userId);
+        return user.activeSessions || [];
+    }
+
+    // Get login history
+    async getLoginHistory(userId) {
+        const user = await this.getUser(userId);
+        return user.loginHistory || [];
+    }
+
+    // Revoke an active session token
+    async revokeSession(userId, tokenHash) {
+        try {
+            const user = await this.getUser(userId);
+            user.activeSessions = user.activeSessions.filter(s => s.tokenHash !== tokenHash);
+            await user.save();
+            logger.info('Session revoked successfully', { userId, tokenHash });
+            return true;
+        } catch (error) {
+            logger.error('Error in revokeSession', { userId, tokenHash, error: error.message });
+            throw error;
+        }
+    }
 }
 
 export default UserService;

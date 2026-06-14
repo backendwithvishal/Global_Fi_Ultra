@@ -26,6 +26,15 @@ export const createAuthRoutes = (controller) => {
     router.post('/mfa/enable', requireAuth, (req, res, next) => controller.enableMfa(req, res, next));
     router.post('/mfa/disable', requireAuth, (req, res, next) => controller.disableMfa(req, res, next));
 
+    // Magic link login
+    router.post('/magic-link', authRateLimiter, (req, res, next) => controller.requestMagicLink(req, res, next));
+    router.get('/magic-link/callback', (req, res, next) => controller.loginWithMagicLink(req, res, next));
+
+    // Active Sessions & History (requires authentication)
+    router.get('/sessions', requireAuth, (req, res, next) => controller.getSessions(req, res, next));
+    router.get('/sessions/history', requireAuth, (req, res, next) => controller.getLoginHistory(req, res, next));
+    router.delete('/sessions/:tokenHash', requireAuth, (req, res, next) => controller.revokeSession(req, res, next));
+
     return router;
 };
 

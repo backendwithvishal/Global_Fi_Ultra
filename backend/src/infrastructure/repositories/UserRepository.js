@@ -177,6 +177,16 @@ export class UserRepository {
         }
     }
 
+    // Find user by magic link token
+    async findByMagicToken(token) {
+        try {
+            return await User.findOne({ 'metadata.magicToken': token });
+        } catch (error) {
+            logger.error('Error finding user by magic token', { error: error.message });
+            throw error;
+        }
+    }
+
     // Find by ID and select specific fields
     async findByIdWithFields(id, fields = []) {
         try {

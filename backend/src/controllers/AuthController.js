@@ -175,6 +175,98 @@ export class AuthController {
             res.status(400).json({ error: error.message, requestId: req.requestId });
         }
     }
+
+    async requestMagicLink(req, res, next) {
+        try {
+            const { email } = req.body;
+            if (!email) {
+                return res.status(400).json({ error: 'Email is required', requestId: req.requestId });
+            }
+
+            await this.userService.requestMagicLink(email);
+            res.json({
+                requestId: req.requestId,
+                timestamp: new Date().toISOString(),
+                message: 'If the email exists, a magic login link has been generated.'
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async loginWithMagicLink(req, res, next) {
+        try {
+            const { token } = req.query;
+            if (!token) {
+                return res.status(400).json({ error: 'Token parameter is required', requestId: req.requestId });
+            }
+
+            const clientIp = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+            const userAgent = req.headers['user-agent'] || 'Unknown';
+
+            const result = await this.userService.loginWithMagicLink(token, clientIp, userAgent);
+
+            res.cookie('token', result.token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+            });
+
+            res.json({
+                requestId: req.requestId,
+                timestamp: new Date().toISOString(),
+                message: 'Magic login successful',
+                token: result.token,
+                user: result.user
+            });
+        } catch (error) {
+            res.status(401).json({ error: error.message, requestId: req.requestId });
+        }
+    }
+
+    async getSessions(req, res, next) {
+        try {
+            const userId = req.user.userId;
+            const sessions = await this.userService.getActiveSessions(userId);
+            res.json({
+                requestId: req.requestId,
+                timestamp: new Date().toISOString(),
+                sessions
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getLoginHistory(req, res, next) {
+        try {
+            const userId = req.user.userId;
+            const history = await this.userService.getLoginHistory(userId);
+            res.json({
+                requestId: req.requestId,
+                timestamp: new Date().toISOString(),
+                history
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async revokeSession(req, res, next) {
+        try {
+            const userId = req.user.userId;
+            const { tokenHash } = req.params;
+            await this.userService.revokeSession(userId, tokenHash);
+            res.json({
+                requestId: req.requestId,
+                timestamp: new Date().toISOString(),
+                message: 'Session revoked successfully.'
+            });
+        } catch (error) {
+            res.status(400).json({ error: error.message, requestId: req.requestId });
+        }
+    }
 }
 
 export default AuthController;
