@@ -15,7 +15,7 @@ export const analyzeSchema = z.object({
     symbol: z.string()
         .min(1, 'Symbol is required')
         .max(10, 'Symbol too long')
-        .regex(/^[A-Z0-9.\-]+$/i, 'Invalid symbol format'),
+        .regex(/^[A-Z0-9.-]+$/i, 'Invalid symbol format'),
     priceData: z.object({
         current: z.number().positive('Current price must be positive'),
         change24h: z.number(),

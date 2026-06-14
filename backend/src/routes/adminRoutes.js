@@ -28,6 +28,7 @@
 
 import { Router } from 'express';
 import { adminRateLimiter } from '../middleware/index.js';
+import { requireAuth, checkRole } from '../middleware/authMiddleware.js';
 
 /**
  * Create and configure the admin routes router.
@@ -38,8 +39,10 @@ import { adminRateLimiter } from '../middleware/index.js';
 export const createAdminRoutes = (controller) => {
     const router = Router();
 
-    // Apply admin rate limiter to all admin routes (20 req / 15 min)
+    // Apply admin rate limiter and auth verification to all admin routes
     router.use(adminRateLimiter);
+    router.use(requireAuth);
+    router.use(checkRole(['Admin']));
 
     // POST /admin/cache/clear — Flush all Redis cache entries
     // Useful for forcing fresh data fetches from external APIs

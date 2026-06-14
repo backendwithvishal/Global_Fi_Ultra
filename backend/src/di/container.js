@@ -50,7 +50,6 @@ import {
     EventLogRepository
 } from '../infrastructure/repositories/index.js';
 import { SocketManager } from '../infrastructure/websocket/index.js';
-import { MessageQueue } from '../infrastructure/messaging/index.js';
 import {
     FinancialDataService,
     UserService,
@@ -363,9 +362,8 @@ export class Container {
      * @returns {boolean} True if AIController was successfully created
      */
     isAIEnabled() {
-        // Map.get() returns undefined (not null) if key was never set,
-        // so use loose inequality to catch both null and undefined
-        return this.instances.get('aiController') != null;
+        const controller = this.instances.get('aiController');
+        return controller !== null && controller !== undefined;
     }
 
     /**

@@ -1,5 +1,3 @@
-import { logger } from '../config/logger.js';
-
 export class OrganizationController {
     constructor({ organizationService }) {
         this.organizationService = organizationService;
@@ -55,7 +53,7 @@ export class OrganizationController {
         }
     }
 
-    async inviteMember(req, res, next) {
+    async inviteMember(req, res, _next) {
         try {
             const { orgId } = req.params;
             const { email, role } = req.body;
@@ -77,7 +75,7 @@ export class OrganizationController {
         }
     }
 
-    async acceptInvite(req, res, next) {
+    async acceptInvite(req, res, _next) {
         try {
             const { token } = req.body;
             const userId = req.user.userId;
@@ -98,7 +96,7 @@ export class OrganizationController {
         }
     }
 
-    async removeMember(req, res, next) {
+    async removeMember(req, res, _next) {
         try {
             const { orgId, userId } = req.params;
             const actorId = req.user.userId;
@@ -115,7 +113,7 @@ export class OrganizationController {
         }
     }
 
-    async updateMemberRole(req, res, next) {
+    async updateMemberRole(req, res, _next) {
         try {
             const { orgId, userId } = req.params;
             const { role } = req.body;
@@ -137,7 +135,7 @@ export class OrganizationController {
         }
     }
 
-    async getPendingInvites(req, res, next) {
+    async getPendingInvites(req, res, _next) {
         try {
             const { orgId } = req.params;
             const actorId = req.user.userId;

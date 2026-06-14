@@ -1,5 +1,4 @@
 // Admin stuff - cache management, metrics, logs
-// TODO: Add proper auth middleware before production!
 
 import { logger } from '../config/logger.js';
 

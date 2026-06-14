@@ -1,7 +1,5 @@
 // User management - CRUD operations for user accounts
 
-import { logger } from '../config/logger.js';
-
 export class UserController {
     constructor({ userService }) {
         this.userService = userService;

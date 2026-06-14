@@ -1,8 +1,5 @@
 // Financial data aggregation - pulls from Alpha Vantage, CoinGecko, FRED, NewsAPI, etc.
 // Two modes: /live (slow, real-time) and /cached (fast, Redis)
-
-import { logger } from '../config/logger.js';
-
 export class FinancialController {
     constructor(dependencies) {
         this.financialDataService = dependencies.financialDataService;

@@ -45,6 +45,9 @@ test_endpoint() {
     elif [ "$http_code" -eq 404 ] && [ "$endpoint" = "/api/v1/financial/cached" ]; then
         echo -e "${GREEN}✓ PASS${NC} ($http_code - Cache Cold)"
         return 0
+    elif [ "$http_code" -eq 401 ] && [ "$endpoint" = "/api/v1/admin/metrics" ]; then
+        echo -e "${GREEN}✓ PASS${NC} ($http_code - Secured)"
+        return 0
     else
         echo -e "${RED}✗ FAIL${NC} ($http_code)"
         echo "Response: $body"

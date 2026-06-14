@@ -33,7 +33,7 @@ export class AIJobQueue {
       this.channel = await this.connection.createChannel();
 
       // Assert queues
-      for (const [name, queueName] of Object.entries(this.queues)) {
+      for (const [, queueName] of Object.entries(this.queues)) {
         await this.channel.assertQueue(queueName, {
           durable: true,
           arguments: {

@@ -25,7 +25,6 @@ import inquirer from 'inquirer';
 import ora from 'ora';
 import { Command } from 'commander';
 import fs from 'fs/promises';
-import { existsSync } from 'fs';
 
 // Configuration
 const CONFIG = {
@@ -194,26 +193,31 @@ class RedisMonitor {
 
     try {
       switch (type) {
-        case 'string':
+        case 'string': {
           const value = await this.redis.get(key);
           size = Buffer.byteLength(value || '', 'utf8');
           break;
-        case 'hash':
+        }
+        case 'hash': {
           const hash = await this.redis.hgetall(key);
           size = Buffer.byteLength(JSON.stringify(hash), 'utf8');
           break;
-        case 'list':
+        }
+        case 'list': {
           const list = await this.redis.lrange(key, 0, -1);
           size = Buffer.byteLength(JSON.stringify(list), 'utf8');
           break;
-        case 'set':
+        }
+        case 'set': {
           const set = await this.redis.smembers(key);
           size = Buffer.byteLength(JSON.stringify(set), 'utf8');
           break;
-        case 'zset':
+        }
+        case 'zset': {
           const zset = await this.redis.zrange(key, 0, -1, 'WITHSCORES');
           size = Buffer.byteLength(JSON.stringify(zset), 'utf8');
           break;
+        }
       }
     } catch (error) {
       // Key might have expired during operation
@@ -532,7 +536,7 @@ class RedisMonitor {
           break;
 
         case 'f':
-        case 'filter':
+        case 'filter': {
           const { newPattern } = await inquirer.prompt([
             {
               type: 'input',
@@ -543,9 +547,10 @@ class RedisMonitor {
           ]);
           pattern = newPattern;
           break;
+        }
 
         case 'v':
-        case 'view':
+        case 'view': {
           const { keyName } = await inquirer.prompt([
             {
               type: 'input',
@@ -558,9 +563,10 @@ class RedisMonitor {
             await inquirer.prompt([{ type: 'input', name: 'continue', message: 'Press Enter to continue...' }]);
           }
           break;
+        }
 
         case 'e':
-        case 'export':
+        case 'export': {
           const { exportFile, exportPattern } = await inquirer.prompt([
             {
               type: 'input',
@@ -578,9 +584,10 @@ class RedisMonitor {
           await this.exportData(exportFile, exportPattern);
           await inquirer.prompt([{ type: 'input', name: 'continue', message: 'Press Enter to continue...' }]);
           break;
+        }
 
         case 'c':
-        case 'clear':
+        case 'clear': {
           const { clearPattern } = await inquirer.prompt([
             {
               type: 'input',
@@ -592,9 +599,10 @@ class RedisMonitor {
           await this.clearKeys(clearPattern);
           await inquirer.prompt([{ type: 'input', name: 'continue', message: 'Press Enter to continue...' }]);
           break;
+        }
 
         case 's':
-        case 'sort':
+        case 'sort': {
           const { sortOption } = await inquirer.prompt([
             {
               type: 'list',
@@ -605,6 +613,7 @@ class RedisMonitor {
           ]);
           sortBy = sortOption;
           break;
+        }
 
         case 'h':
         case 'health':

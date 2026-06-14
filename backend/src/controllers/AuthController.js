@@ -1,5 +1,3 @@
-import { logger } from '../config/logger.js';
-
 export class AuthController {
     constructor({ userService }) {
         this.userService = userService;
@@ -77,7 +75,7 @@ export class AuthController {
         }
     }
 
-    async verifyEmail(req, res, next) {
+    async verifyEmail(req, res, _next) {
         try {
             const { token } = req.query;
             if (!token) {
@@ -113,7 +111,7 @@ export class AuthController {
         }
     }
 
-    async resetPassword(req, res, next) {
+    async resetPassword(req, res, _next) {
         try {
             const { token, password } = req.body;
             if (!token || !password) {
@@ -145,7 +143,7 @@ export class AuthController {
         }
     }
 
-    async enableMfa(req, res, next) {
+    async enableMfa(req, res, _next) {
         try {
             const userId = req.user.userId;
             const { code } = req.body;
@@ -161,7 +159,7 @@ export class AuthController {
         }
     }
 
-    async disableMfa(req, res, next) {
+    async disableMfa(req, res, _next) {
         try {
             const userId = req.user.userId;
             const { code } = req.body;
@@ -194,7 +192,7 @@ export class AuthController {
         }
     }
 
-    async loginWithMagicLink(req, res, next) {
+    async loginWithMagicLink(req, res, _next) {
         try {
             const { token } = req.query;
             if (!token) {
@@ -253,7 +251,7 @@ export class AuthController {
         }
     }
 
-    async revokeSession(req, res, next) {
+    async revokeSession(req, res, _next) {
         try {
             const userId = req.user.userId;
             const { tokenHash } = req.params;

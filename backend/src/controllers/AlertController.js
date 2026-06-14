@@ -1,8 +1,6 @@
 // Price alerts - notify users when assets hit target prices
 // Supports above/below/equals conditions
 
-import { logger } from '../config/logger.js';
-
 export class AlertController {
     constructor({ alertService }) {
         this.alertService = alertService;

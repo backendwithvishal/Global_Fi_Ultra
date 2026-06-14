@@ -116,11 +116,12 @@ alertSchema.methods.checkTrigger = function (currentPrice) {
         case 'below':
             shouldTrigger = currentPrice < this.targetPrice;
             break;
-        case 'equals':
+        case 'equals': {
             // Allow 0.1% tolerance for equals
             const tolerance = this.targetPrice * 0.001;
             shouldTrigger = Math.abs(currentPrice - this.targetPrice) <= tolerance;
             break;
+        }
     }
 
     if (shouldTrigger) {

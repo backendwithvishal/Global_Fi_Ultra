@@ -61,6 +61,9 @@ function Test-Endpoint {
         } elseif ($statusCode -eq 404 -and $Endpoint -eq "/api/v1/financial/cached") {
             Write-Host "PASS ($statusCode - Cache Cold)" -ForegroundColor Green
             return $true
+        } elseif ($statusCode -eq 401 -and $Endpoint -eq "/api/v1/admin/metrics") {
+            Write-Host "PASS ($statusCode - Secured)" -ForegroundColor Green
+            return $true
         } else {
             Write-Host "FAIL ($statusCode)" -ForegroundColor Red
             Write-Host "Error: $($_.Exception.Message)" -ForegroundColor Red

@@ -3,7 +3,7 @@ export class BillingController {
         this.billingService = billingService;
     }
 
-    async createSession(req, res, next) {
+    async createSession(req, res, _next) {
         try {
             const { planId, billingCycle, couponCode } = req.body;
             const userId = req.user.userId;
@@ -23,7 +23,7 @@ export class BillingController {
         }
     }
 
-    async confirmCheckout(req, res, next) {
+    async confirmCheckout(req, res, _next) {
         try {
             const { sessionId, planId, billingCycle } = req.body;
             const userId = req.user.userId;
@@ -73,7 +73,7 @@ export class BillingController {
         }
     }
 
-    async applyCoupon(req, res, next) {
+    async applyCoupon(req, res, _next) {
         try {
             const { code } = req.params;
             const coupon = await this.billingService.applyCoupon(code);

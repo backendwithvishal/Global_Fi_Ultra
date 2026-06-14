@@ -1,7 +1,5 @@
 // Watchlist management - users can create named collections of assets to track
 
-import { logger } from '../config/logger.js';
-
 export class WatchlistController {
     constructor({ watchlistService }) {
         this.watchlistService = watchlistService;

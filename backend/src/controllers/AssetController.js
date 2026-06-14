@@ -1,8 +1,6 @@
 // Asset management - stocks, crypto, forex, commodities, indices
 // The /live endpoint is expensive - hits external APIs in real-time
 
-import { logger } from '../config/logger.js';
-
 export class AssetController {
     constructor({ assetService, financialDataService }) {
         this.assetService = assetService;
@@ -61,7 +59,6 @@ export class AssetController {
     async getLiveAssetData(req, res, next) {
         try {
             const { symbol } = req.params;
-            const { forceRefresh } = req.query;
 
             // Try to get asset type from DB, default to stock if not found
             let asset;
