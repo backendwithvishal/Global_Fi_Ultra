@@ -20,7 +20,7 @@ export function Billing() {
     if (sessionId && plan && currentUser) {
       const confirmPayment = async () => {
         try {
-          const res = await fetch('http://localhost:4000/api/v1/billing/confirm', {
+          const res = await fetch('http://localhost:3000/api/v1/billing/confirm', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export function Billing() {
     const fetchInvoices = async () => {
       if (!token) return
       try {
-        const res = await fetch('http://localhost:4000/api/v1/billing/invoices', {
+        const res = await fetch('http://localhost:3000/api/v1/billing/invoices', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -92,7 +92,7 @@ export function Billing() {
 
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:4000/api/v1/billing/cancel', {
+      const res = await fetch('http://localhost:3000/api/v1/billing/cancel', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -133,7 +133,7 @@ export function Billing() {
       
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold text-white mb-1">Billing & Subscription</h1>
+        <h1 className="text-xl font-bold text-[var(--text-1)] mb-1">Billing & Subscription</h1>
         <p className="text-[11px] text-[var(--text-3)]">Manage organization payment configurations, pricing tiers, and invoices history.</p>
       </div>
 
@@ -141,7 +141,7 @@ export function Billing() {
         
         {/* Active plan card */}
         <div className="card p-6 border-[var(--border-3)] bg-gradient-to-br from-[var(--bg-2)] to-[var(--bg-3)] md:col-span-2">
-          <h2 className="text-[14px] font-bold text-white mb-4 flex items-center gap-2">
+          <h2 className="text-[14px] font-bold text-[var(--text-1)] mb-4 flex items-center gap-2">
             <CreditCard className="w-4 h-4 text-[var(--accent-bright)]" /> Current Subscription Details
           </h2>
           
@@ -158,7 +158,7 @@ export function Billing() {
             </div>
             <div className="p-4 rounded-lg bg-[var(--bg-1)] border border-[var(--border-2)] text-center">
               <span className="text-[10px] text-[var(--text-3)] uppercase tracking-wider font-semibold">Expiration Date</span>
-              <p className="text-[13px] font-bold text-white mt-1.5 flex items-center justify-center gap-1">
+              <p className="text-[13px] font-bold text-[var(--text-1)] mt-1.5 flex items-center justify-center gap-1">
                 <Calendar className="w-3.5 h-3.5 text-[var(--text-3)]" /> {periodEnd}
               </p>
             </div>
@@ -192,19 +192,19 @@ export function Billing() {
 
         {/* Quotas panel */}
         <div className="card p-6 border-[var(--border-2)]">
-          <h2 className="text-[14px] font-bold text-white mb-4">Subscription Limits</h2>
+          <h2 className="text-[14px] font-bold text-[var(--text-1)] mb-4">Subscription Limits</h2>
           <ul className="space-y-4 text-[12px]">
             <li className="flex justify-between items-center py-2 border-b border-[var(--border-1)]">
               <span className="text-[var(--text-3)]">Custom Watchlists</span>
-              <span className="font-bold text-white font-mono">{tier === 'Free' ? '1 Limit' : tier === 'Starter' ? '5 Limits' : 'Unlimited'}</span>
+              <span className="font-bold text-[var(--text-1)] font-mono">{tier === 'Free' ? '1 Limit' : tier === 'Starter' ? '5 Limits' : 'Unlimited'}</span>
             </li>
             <li className="flex justify-between items-center py-2 border-b border-[var(--border-1)]">
               <span className="text-[var(--text-3)]">Live Price Alerts</span>
-              <span className="font-bold text-white font-mono">{tier === 'Free' ? '1 Active' : tier === 'Starter' ? '10 Active' : '99 Active'}</span>
+              <span className="font-bold text-[var(--text-1)] font-mono">{tier === 'Free' ? '1 Active' : tier === 'Starter' ? '10 Active' : '99 Active'}</span>
             </li>
             <li className="flex justify-between items-center py-2">
               <span className="text-[var(--text-3)]">AI Recommendations</span>
-              <span className="font-bold text-white font-mono">{tier === 'Free' ? '3 / day' : tier === 'Starter' ? '50 / mo' : '500 / mo'}</span>
+              <span className="font-bold text-[var(--text-1)] font-mono">{tier === 'Free' ? '3 / day' : tier === 'Starter' ? '50 / mo' : '500 / mo'}</span>
             </li>
           </ul>
         </div>
@@ -213,7 +213,7 @@ export function Billing() {
 
       {/* Invoices List */}
       <div className="card p-6 border-[var(--border-2)]">
-        <h2 className="text-[14px] font-bold text-white mb-4">Billing History</h2>
+        <h2 className="text-[14px] font-bold text-[var(--text-1)] mb-4">Billing History</h2>
         {invoices.length === 0 ? (
           <div className="text-center py-8 text-[var(--text-3)] flex flex-col items-center gap-2">
             <AlertCircle className="w-5 h-5" /> No invoices match this profile.
@@ -235,7 +235,7 @@ export function Billing() {
                   <tr key={inv.id} className="border-b border-[var(--border-1)] hover:bg-[var(--bg-3)] transition-colors">
                     <td className="py-3 font-mono">{inv.id}</td>
                     <td className="py-3">{inv.date}</td>
-                    <td className="py-3 num font-semibold text-white">${inv.amount}.00 USD</td>
+                    <td className="py-3 num font-semibold text-[var(--text-1)]">${inv.amount}.00 USD</td>
                     <td className="py-3">
                       <span className="px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-[var(--success-subtle)] text-[var(--success-bright)] border border-[var(--success-border)] uppercase">Paid</span>
                     </td>

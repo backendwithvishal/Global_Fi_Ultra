@@ -4,10 +4,10 @@ import type { CircuitBreakerStatus } from '@/types'
 import { Badge } from '@/components/ui/Badge'
 import { SkeletonCard } from '@/components/ui/Skeleton'
 
-const cbBadge = (s: string): 'green' | 'red' | 'amber' =>
+const cbBadge = (s: string | undefined): 'green' | 'red' | 'amber' =>
   s === 'CLOSED' ? 'green' : s === 'OPEN' ? 'red' : 'amber'
 
-const cbDot = (s: string) =>
+const cbDot = (s: string | undefined) =>
   s === 'CLOSED' ? 'bg-[var(--success-bright)] animate-pulse' : s === 'OPEN' ? 'bg-[var(--danger-bright)]' : 'bg-[var(--warning-bright)]'
 
 export function CircuitBreakers({ cbs, loading }: { cbs: CircuitBreakerStatus[]; loading?: boolean }) {
@@ -21,6 +21,7 @@ export function CircuitBreakers({ cbs, loading }: { cbs: CircuitBreakerStatus[];
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       {cbs.map((cb, i) => {
         const serviceName = cb.service || (cb as any).name || 'Unknown'
+        const state = cb.state || 'UNKNOWN'
         return (
           <motion.div
             key={serviceName}
@@ -31,14 +32,14 @@ export function CircuitBreakers({ cbs, loading }: { cbs: CircuitBreakerStatus[];
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <span className={`w-2 h-2 rounded-full shrink-0 ${cbDot(cb.state)}`} />
+                <span className={`w-2 h-2 rounded-full shrink-0 ${cbDot(state)}`} />
                 <span className="text-xs font-semibold text-[var(--text-1)] capitalize">
                   {serviceName.replace(/_/g, ' ')}
                 </span>
               </div>
-              <Badge variant={cbBadge(cb.state)}>{cb.state}</Badge>
+              <Badge variant={cbBadge(state)}>{state}</Badge>
             </div>
-            {cb.failures > 0 && (
+            {cb.failures !== undefined && cb.failures > 0 && (
               <p className="text-xs text-[var(--text-3)] font-mono">
                 {cb.failures} failure{cb.failures !== 1 ? 's' : ''}
               </p>

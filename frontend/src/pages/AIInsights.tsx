@@ -13,14 +13,14 @@ import { useToast } from '@/components/ui/Toast'
 import type { SentimentResult, AssetAnalysis } from '@/types'
 
 // Level 2 card + Level 3 input
-const cardCls  = 'bg-white dark:bg-[#131D2E] border border-slate-200/80 dark:border-[var(--border)] rounded-xl p-5'
-const inputCls = 'w-full h-9 bg-slate-50 dark:bg-[var(--bg-input)] border border-slate-200 dark:border-[var(--border)] hover:border-slate-300 dark:hover:border-[var(--border-md)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-blue-500/30 rounded-lg px-3 text-sm text-[var(--text-1)] placeholder:text-[var(--text-3)] transition-all duration-150'
+const cardCls  = 'bg-[var(--bg-2)] border border-[var(--border-2)] rounded-xl p-5'
+const inputCls = 'w-full h-9 bg-[var(--bg-input)] border border-[var(--border-2)] hover:border-[var(--border-3)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--border-focus)] rounded-lg px-3 text-sm text-[var(--text-1)] placeholder:text-[var(--text-3)] transition-all duration-150'
 
 const TAB_CLASSES = (active: boolean) =>
   `flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
     active
-      ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 border border-blue-500/25'
-      : 'text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-slate-100 dark:hover:bg-slate-800/50'
+      ? 'bg-[var(--accent-subtle)] text-[var(--accent-bright)] border border-[rgba(37,99,235,0.25)]'
+      : 'text-[var(--text-2)] hover:text-[var(--text-1)] hover:bg-[var(--bg-4)]'
   }`
 
 export function AIInsights() {
@@ -77,9 +77,9 @@ export function AIInsights() {
 
   // Trend colour per spec
   const trendColor: Record<string, string> = {
-    bullish: 'text-emerald-600 dark:text-emerald-400',
-    bearish: 'text-red-600 dark:text-red-400',
-    neutral: 'text-amber-600 dark:text-amber-400',
+    bullish: 'text-[var(--success-bright)]',
+    bearish: 'text-[var(--danger-bright)]',
+    neutral: 'text-[var(--warning-bright)]',
   }
 
   const PROMPTS = [
@@ -104,13 +104,13 @@ export function AIInsights() {
         </div>
       </div>
 
-      {/* Tab bar — Level 2 card */}
-      <div className="flex items-center gap-1 mb-5 bg-white dark:bg-[#131D2E] border border-slate-200/80 dark:border-[var(--border)] rounded-xl p-1 w-fit">
+      {/* Tab bar */}
+      <div className="flex items-center gap-1 mb-5 bg-[var(--bg-2)] border border-[var(--border-2)] rounded-xl p-1 w-fit">
         <button className={TAB_CLASSES(tab === 'chat')}      onClick={() => setTab('chat')}>
           <Bot className="h-3.5 w-3.5" />AI Chat
         </button>
         <button className={TAB_CLASSES(tab === 'sentiment')} onClick={() => setTab('sentiment')}>
-          <Brain className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />Sentiment
+          <Brain className="h-3.5 w-3.5 text-[var(--ai-bright)]" />Sentiment
         </button>
         <button className={TAB_CLASSES(tab === 'analysis')}  onClick={() => setTab('analysis')}>
           <BarChart3 className="h-3.5 w-3.5" />Analysis
@@ -120,14 +120,14 @@ export function AIInsights() {
       {/* ── Chat tab ── */}
       {tab === 'chat' && (
         <div
-          className="bg-white dark:bg-[#131D2E] border border-slate-200/80 dark:border-[var(--border)] rounded-xl flex flex-col"
+          className="bg-[var(--bg-2)] border border-[var(--border-2)] rounded-xl flex flex-col"
           style={{ height: '580px' }}
         >
           {/* Chat header */}
-          <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-[var(--border)] shrink-0">
+          <div className="flex items-center justify-between px-5 py-3.5 border-b border-[var(--border-2)] shrink-0">
             <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-purple-500/15 border border-purple-500/25">
-                <Bot className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />
+              <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-[var(--ai-subtle)] border border-[var(--ai-border)]">
+                <Bot className="h-3.5 w-3.5 text-[var(--ai-bright)]" />
               </div>
               <span className="text-sm font-semibold text-[var(--text-1)]">Financial AI Assistant</span>
             </div>
@@ -140,8 +140,8 @@ export function AIInsights() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {aiMessages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <div className="p-5 rounded-2xl bg-purple-500/10 border border-purple-500/20 mb-4">
-                  <Sparkles className="h-9 w-9 text-purple-700 dark:text-purple-400" />
+                <div className="p-5 rounded-2xl bg-[var(--ai-subtle)] border border-[var(--ai-border)] mb-4">
+                  <Sparkles className="h-9 w-9 text-[var(--ai-bright)]" />
                 </div>
                 <h3 className="font-bold text-[var(--text-1)] mb-1">Ask me anything about finance</h3>
                 <p className="text-sm text-[var(--text-2)] max-w-sm mb-5">Analyze markets, explain trends, compare assets, get AI insights.</p>
@@ -150,7 +150,7 @@ export function AIInsights() {
                     <button
                       key={p}
                       onClick={() => setInput(p)}
-                      className="text-left text-xs p-3 rounded-xl border border-slate-200 dark:border-[var(--border)] bg-slate-50 dark:bg-slate-800/30 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-[var(--border-md)] text-[var(--text-2)] hover:text-[var(--text-1)] transition-all"
+                      className="text-left text-xs p-3 rounded-xl border border-[var(--border-2)] bg-[var(--bg-3)] hover:bg-[var(--bg-4)] hover:border-[var(--border-3)] text-[var(--text-2)] hover:text-[var(--text-1)] transition-all"
                     >
                       {p}
                     </button>
@@ -166,17 +166,17 @@ export function AIInsights() {
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
                 >
-                  <div className={`flex items-center justify-center w-7 h-7 rounded-full shrink-0 ${msg.role === 'user' ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-700'}`}>
+                  <div className={`flex items-center justify-center w-7 h-7 rounded-full shrink-0 ${msg.role === 'user' ? 'bg-[var(--accent)]' : 'bg-[var(--bg-4)]'}`}>
                     {msg.role === 'user'
                       ? <User className="h-3.5 w-3.5 text-white" />
-                      : <Bot className="h-3.5 w-3.5 text-slate-700 dark:text-[var(--text-2)]" />
+                      : <Bot className="h-3.5 w-3.5 text-[var(--text-2)]" />
                     }
                   </div>
                   <div className={`group relative max-w-[80%] flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                     <div className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                       msg.role === 'user'
-                        ? 'bg-blue-600 text-white rounded-tr-sm'
-                        : 'bg-slate-100 dark:bg-slate-800 text-[var(--text-1)] border border-slate-200 dark:border-[var(--border)] rounded-tl-sm'
+                        ? 'bg-[var(--accent)] text-white rounded-tr-sm'
+                        : 'bg-[var(--bg-3)] text-[var(--text-1)] border border-[var(--border-2)] rounded-tl-sm'
                     }`}>
                       {msg.content || (msg.isStreaming && (
                         <span className="flex items-center gap-1.5 text-[var(--text-3)]">
@@ -188,10 +188,10 @@ export function AIInsights() {
                     {msg.content && !msg.isStreaming && (
                       <button
                         onClick={() => handleCopy(msg.content, msg.id)}
-                        className="absolute -top-1 -right-8 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                        className="absolute -top-1 -right-8 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-lg hover:bg-[var(--bg-4)]"
                       >
                         {copiedId === msg.id
-                          ? <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                          ? <Check className="h-3 w-3 text-[var(--success-bright)]" />
                           : <Copy className="h-3 w-3 text-[var(--text-3)]" />
                         }
                       </button>
@@ -204,7 +204,7 @@ export function AIInsights() {
           </div>
 
           {/* Input bar */}
-          <div className="p-4 border-t border-slate-200 dark:border-[var(--border)] shrink-0">
+          <div className="p-4 border-t border-[var(--border-2)] shrink-0">
             <div className="flex gap-2">
               <input
                 value={chatInput}
@@ -235,7 +235,7 @@ export function AIInsights() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className={cardCls}>
             <div className="flex items-center gap-2 mb-4">
-              <Brain className="h-4 w-4 text-purple-700 dark:text-purple-400" />
+              <Brain className="h-4 w-4 text-[var(--ai-bright)]" />
               <h3 className="text-sm font-semibold text-[var(--text-1)]">Sentiment Analysis</h3>
             </div>
             <div className="space-y-4">
@@ -261,14 +261,14 @@ export function AIInsights() {
             <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} className={cardCls + ' space-y-4'}>
               <h3 className="text-sm font-semibold text-[var(--text-1)]">Result</h3>
               {/* Sentiment badge */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40">
+              <div className="flex items-center justify-between p-3 rounded-xl bg-[var(--bg-3)]">
                 <span className="text-sm text-[var(--text-2)]">Sentiment</span>
                 <span className={`text-lg font-bold capitalize ${
                   sentResult.sentiment === 'bullish' || sentResult.sentiment === 'positive'
-                    ? 'text-emerald-600 dark:text-emerald-400'
+                    ? 'text-[var(--success-bright)]'
                     : sentResult.sentiment === 'bearish' || sentResult.sentiment === 'negative'
-                    ? 'text-red-600 dark:text-red-400'
-                    : 'text-amber-600 dark:text-amber-400'
+                    ? 'text-[var(--danger-bright)]'
+                    : 'text-[var(--warning-bright)]'
                 }`}>{sentResult.sentiment}</span>
               </div>
               {/* Confidence bar */}
@@ -277,23 +277,23 @@ export function AIInsights() {
                   <span className="text-[var(--text-2)]">Confidence</span>
                   <span className="font-semibold text-[var(--text-1)]">{sentResult.confidence}%</span>
                 </div>
-                <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                <div className="h-2 rounded-full bg-[var(--bg-5)] overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${sentResult.confidence}%` }}
                     transition={{ duration: 0.8, ease: 'easeOut' }}
                     className={`h-full rounded-full ${
                       sentResult.sentiment === 'bullish' || sentResult.sentiment === 'positive'
-                        ? 'bg-emerald-500'
+                        ? 'bg-[var(--success)]'
                         : sentResult.sentiment === 'bearish' || sentResult.sentiment === 'negative'
-                        ? 'bg-red-500'
-                        : 'bg-amber-500'
+                        ? 'bg-[var(--danger)]'
+                        : 'bg-[var(--warning)]'
                     }`}
                   />
                 </div>
               </div>
               {sentResult.reasoning && (
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 text-sm text-[var(--text-2)] leading-relaxed">
+                <div className="p-3 rounded-xl bg-[var(--bg-3)] text-sm text-[var(--text-2)] leading-relaxed">
                   {sentResult.reasoning}
                 </div>
               )}
@@ -307,7 +307,7 @@ export function AIInsights() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className={cardCls}>
             <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+              <TrendingUp className="h-4 w-4 text-[var(--accent-bright)]" />
               <h3 className="text-sm font-semibold text-[var(--text-1)]">Asset Analysis</h3>
             </div>
             <div className="space-y-4">
@@ -346,14 +346,14 @@ export function AIInsights() {
                   anResult.support    ? { label: 'Support',    value: `$${anResult.support}`,    cls: 'text-[var(--text-1)]' } : null,
                   anResult.resistance ? { label: 'Resistance', value: `$${anResult.resistance}`, cls: 'text-[var(--text-1)]' } : null,
                 ].filter(Boolean).map((s: any) => (
-                  <div key={s.label} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40">
+                  <div key={s.label} className="p-3 rounded-xl bg-[var(--bg-3)]">
                     <p className="text-[10px] text-[var(--text-3)] uppercase tracking-wider">{s.label}</p>
                     <p className={`text-sm font-semibold capitalize mt-0.5 ${s.cls}`}>{s.value}</p>
                   </div>
                 ))}
               </div>
               {anResult.reasoning && (
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 text-sm text-[var(--text-2)] leading-relaxed">
+                <div className="p-3 rounded-xl bg-[var(--bg-3)] text-sm text-[var(--text-2)] leading-relaxed">
                   {anResult.reasoning}
                 </div>
               )}

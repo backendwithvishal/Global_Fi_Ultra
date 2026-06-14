@@ -16,7 +16,7 @@ export function DeveloperKeys() {
     if (!token) return
     try {
       const orgParam = currentOrganization ? `?orgId=${currentOrganization._id}` : ''
-      const res = await fetch(`http://localhost:4000/api/v1/apikeys${orgParam}`, {
+      const res = await fetch(`http://localhost:3000/api/v1/apikeys${orgParam}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -46,7 +46,7 @@ export function DeveloperKeys() {
 
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:4000/api/v1/apikeys', {
+      const res = await fetch('http://localhost:3000/api/v1/apikeys', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export function DeveloperKeys() {
     }
 
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/apikeys/${id}`, {
+      const res = await fetch(`http://localhost:3000/api/v1/apikeys/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -111,7 +111,7 @@ export function DeveloperKeys() {
       
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold text-white mb-1">Developer API Keys</h1>
+        <h1 className="text-xl font-bold text-[var(--text-1)] mb-1">Developer API Keys</h1>
         <p className="text-[11px] text-[var(--text-3)]">Create secure credentials to query financial data and stream indicators to external applications.</p>
       </div>
 
@@ -119,7 +119,7 @@ export function DeveloperKeys() {
         
         {/* Keys List */}
         <div className="card p-6 border-[var(--border-2)] md:col-span-2 space-y-4">
-          <h2 className="text-[14px] font-bold text-white flex items-center gap-2">
+          <h2 className="text-[14px] font-bold text-[var(--text-1)] flex items-center gap-2">
             <Key className="w-4 h-4 text-[var(--accent-bright)]" /> Active Access Tokens
           </h2>
 
@@ -127,7 +127,7 @@ export function DeveloperKeys() {
             {keys.map(key => (
               <div key={key._id} className="p-4 rounded-lg bg-[var(--bg-3)] border border-[var(--border-1)] flex items-center justify-between">
                 <div>
-                  <h4 className="text-[13px] font-bold text-white">{key.name}</h4>
+                  <h4 className="text-[13px] font-bold text-[var(--text-1)]">{key.name}</h4>
                   <div className="flex items-center gap-4 text-[10px] text-[var(--text-3)] mt-1 font-mono">
                     <span>Prefix: {key.prefix}</span>
                     <span>Created: {key.createdAt}</span>
@@ -159,7 +159,7 @@ export function DeveloperKeys() {
 
         {/* Generate Card */}
         <div className="card p-6 border-[var(--border-3)] h-fit">
-          <h2 className="text-[14px] font-bold text-white mb-4 flex items-center gap-2">
+          <h2 className="text-[14px] font-bold text-[var(--text-1)] mb-4 flex items-center gap-2">
             <Code className="w-4 h-4 text-[var(--success-bright)]" /> Create API Token
           </h2>
           <form onSubmit={handleGenerateKey} className="space-y-4">
@@ -225,12 +225,12 @@ export function DeveloperKeys() {
           </div>
 
           <div className="flex gap-2 items-center bg-[var(--bg-1)] p-3 rounded-lg border border-[var(--border-2)]">
-            <span className="font-mono text-[13px] font-semibold text-white tracking-wider flex-1 overflow-x-auto select-all">
+            <span className="font-mono text-[13px] font-semibold text-[var(--text-1)] tracking-wider flex-1 overflow-x-auto select-all">
               {revealKey ? newKeyPlain : '••••••••••••••••••••••••••••••••••••••••••••'}
             </span>
             <button 
               onClick={() => setRevealKey(prev => !prev)}
-              className="p-1 rounded text-[var(--text-3)] hover:text-white"
+              className="p-1 rounded text-[var(--text-3)] hover:text-[var(--text-1)]"
             >
               {revealKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
@@ -240,7 +240,7 @@ export function DeveloperKeys() {
 
       {/* Code Snippets */}
       <div className="card p-6 border-[var(--border-2)]">
-        <h2 className="text-[14px] font-bold text-white mb-4 flex items-center gap-2">
+        <h2 className="text-[14px] font-bold text-[var(--text-1)] mb-4 flex items-center gap-2">
           <Terminal className="w-4 h-4 text-[var(--text-3)]" /> Integration Example
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -249,7 +249,7 @@ export function DeveloperKeys() {
               Authenticate public requests by adding the plain text key inside the authorization bearer headers parameter:
             </p>
             <pre className="text-[11px] text-[var(--text-3)] font-mono leading-relaxed bg-[var(--bg-1)] p-3.5 rounded-lg overflow-x-auto border border-[var(--border-2)]">
-{`curl -X GET http://localhost:4000/api/v1/financial/live \\
+{`curl -X GET http://localhost:3000/api/v1/financial/live \\
   -H "Authorization: Bearer gfu_live_your_token_key" \\
   -H "Content-Type: application/json"`}
             </pre>

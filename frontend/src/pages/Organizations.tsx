@@ -13,7 +13,7 @@ export function Organizations() {
   const fetchInvites = useCallback(async () => {
     if (!currentOrganization || !token) return
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/organizations/${currentOrganization._id}/invites`, {
+      const res = await fetch(`http://localhost:3000/api/v1/organizations/${currentOrganization._id}/invites`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -40,7 +40,7 @@ export function Organizations() {
 
     setLoading(true)
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/organizations/${currentOrganization._id}/invite`, {
+      const res = await fetch(`http://localhost:3000/api/v1/organizations/${currentOrganization._id}/invite`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export function Organizations() {
     }
 
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/organizations/${currentOrganization?._id}/members/${userId}`, {
+      const res = await fetch(`http://localhost:3000/api/v1/organizations/${currentOrganization?._id}/members/${userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -95,7 +95,7 @@ export function Organizations() {
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/organizations/${currentOrganization?._id}/members/${userId}/role`, {
+      const res = await fetch(`http://localhost:3000/api/v1/organizations/${currentOrganization?._id}/members/${userId}/role`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export function Organizations() {
       
       {/* Header */}
       <div>
-        <h1 className="text-xl font-bold text-white mb-1">Teams & Workspaces</h1>
+        <h1 className="text-xl font-bold text-[var(--text-1)] mb-1">Teams & Workspaces</h1>
         <p className="text-[11px] text-[var(--text-3)]">Manage members, configure security permissions, and invite new colleagues.</p>
       </div>
 
@@ -128,7 +128,7 @@ export function Organizations() {
         
         {/* Members List */}
         <div className="card p-6 border-[var(--border-2)] md:col-span-2 space-y-4">
-          <h2 className="text-[14px] font-bold text-white flex items-center gap-2">
+          <h2 className="text-[14px] font-bold text-[var(--text-1)] flex items-center gap-2">
             <Users className="w-4 h-4 text-[var(--accent-bright)]" /> Active Members in Workspace
           </h2>
 
@@ -136,11 +136,11 @@ export function Organizations() {
             {currentOrganization?.members.map(member => (
               <div key={member.userId._id} className="p-4 rounded-lg bg-[var(--bg-3)] border border-[var(--border-1)] flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-[var(--bg-4)] flex items-center justify-center font-bold text-white text-[12px]">
+                  <div className="w-9 h-9 rounded-full bg-[var(--bg-5)] flex items-center justify-center font-bold text-[var(--text-1)] text-[12px]">
                     {member.userId.firstName.charAt(0)}{member.userId.lastName.charAt(0)}
                   </div>
                   <div>
-                    <h4 className="text-[13px] font-bold text-white">{member.userId.firstName} {member.userId.lastName}</h4>
+                    <h4 className="text-[13px] font-bold text-[var(--text-1)]">{member.userId.firstName} {member.userId.lastName}</h4>
                     <p className="text-[11px] text-[var(--text-3)]">{member.userId.email}</p>
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export function Organizations() {
                   {/* Role Selector */}
                   {member.role !== 'Owner' ? (
                     <select
-                      className="px-2.5 py-1 text-[11px] bg-[var(--bg-input)] border border-[var(--border-2)] rounded-lg text-[var(--text-2)] hover:text-white cursor-pointer"
+                      className="px-2.5 py-1 text-[11px] bg-[var(--bg-input)] border border-[var(--border-2)] rounded-lg text-[var(--text-2)] hover:text-[var(--text-1)] cursor-pointer"
                       value={member.role}
                       onChange={e => handleRoleChange(member.userId._id, e.target.value)}
                     >
@@ -159,7 +159,7 @@ export function Organizations() {
                       <option value="Guest">Guest</option>
                     </select>
                   ) : (
-                    <span className="text-[10px] font-bold text-amber-400 bg-amber-950/20 px-2 py-0.5 rounded-full border border-amber-900/40 uppercase">Owner</span>
+                    <span className="text-[10px] font-bold text-[var(--gold-bright)] bg-[var(--gold-subtle)] px-2 py-0.5 rounded-full border border-[var(--gold-bright)]/30 uppercase">Owner</span>
                   )}
 
                   {member.role !== 'Owner' && (
@@ -179,7 +179,7 @@ export function Organizations() {
 
         {/* Invite Form */}
         <div className="card p-6 border-[var(--border-3)] h-fit">
-          <h2 className="text-[14px] font-bold text-white mb-4 flex items-center gap-2">
+          <h2 className="text-[14px] font-bold text-[var(--text-1)] mb-4 flex items-center gap-2">
             <UserPlus className="w-4 h-4 text-[var(--success-bright)]" /> Invite Collaborator
           </h2>
           <form onSubmit={handleInvite} className="space-y-4">
@@ -221,7 +221,7 @@ export function Organizations() {
 
       {/* Pending Invites list */}
       <div className="card p-6 border-[var(--border-2)]">
-        <h2 className="text-[14px] font-bold text-white mb-4 flex items-center gap-2">
+        <h2 className="text-[14px] font-bold text-[var(--text-1)] mb-4 flex items-center gap-2">
           <Mail className="w-4 h-4 text-[var(--text-3)]" /> Pending Invitations
         </h2>
 
@@ -232,7 +232,7 @@ export function Organizations() {
             {invites.map(invite => (
               <div key={invite._id} className="p-3.5 rounded-lg bg-[var(--bg-3)] border border-[var(--border-1)] flex items-center justify-between text-[12px]">
                 <div className="flex items-center gap-4">
-                  <span className="font-bold text-white font-mono">{invite.email}</span>
+                  <span className="font-bold text-[var(--text-1)] font-mono">{invite.email}</span>
                   <span className="text-[10px] text-[var(--text-3)]">Role: {invite.role}</span>
                   <span className="text-[10px] text-[var(--text-3)]">Expires: {invite.expiresAt}</span>
                 </div>
