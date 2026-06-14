@@ -7,6 +7,7 @@ import { useWebSocket } from '@/hooks/useWebSocket'
 import { useApp } from '@/context/AppContext'
 import { SidebarProvider, useSidebar } from '@/context/SidebarContext'
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
+import { CommandPalette } from '@/components/common/CommandPalette'
 import type { FinancialDataResponse, AIMessage } from '@/types'
 
 /* ── Shared WebSocket Context ── */
@@ -41,6 +42,9 @@ function AppShell() {
 
   return (
     <WSCtx.Provider value={ws}>
+      {/* Keyboard Shortcuts Command Menu */}
+      <CommandPalette />
+
       {/* Root container */}
       <div className="flex h-screen overflow-hidden bg-[var(--bg-0)]">
 

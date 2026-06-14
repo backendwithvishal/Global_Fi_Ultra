@@ -34,4 +34,4 @@ export { requestLogger } from './requestLogger.js';
 export { validateRequest } from './validateRequest.js';
 
 // ─── Authentication ───────────────────────────────────────────────────────────
-export { requireAuth, optionalAuth } from './authMiddleware.js';
+export { requireAuth, optionalAuth, checkRole } from './authMiddleware.js';

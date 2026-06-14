@@ -11,6 +11,12 @@ const watchlistSchema = new Schema({
         required: true,
         index: true,
     },
+    organizationId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Organization',
+        required: false,
+        index: true,
+    },
     name: {
         type: String,
         required: true,

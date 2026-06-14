@@ -8,6 +8,9 @@ export interface User {
   fullName?: string
   isActive: boolean
   preferences: UserPreferences
+  subscriptionTier?: 'Free' | 'Starter' | 'Pro' | 'Enterprise'
+  subscriptionStatus?: string
+  subscriptionPeriodEnd?: string
   metadata?: Record<string, unknown>
   createdAt: string
   updatedAt: string
@@ -378,4 +381,66 @@ export interface CreateWatchlistFormData {
   description?: string
   isPublic: boolean
   tags?: string[]
+}
+
+// ─── SaaS Domain Types ──────────────────────────────────────────────────────────
+
+export interface Organization {
+  _id: string
+  name: string
+  slug: string
+  ownerId: string
+  members: Member[]
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Member {
+  userId: {
+    _id: string
+    email: string
+    firstName: string
+    lastName: string
+  }
+  role: 'Owner' | 'Admin' | 'Manager' | 'Member' | 'Guest'
+  joinedAt: string
+}
+
+export interface Invitation {
+  _id: string
+  organizationId: {
+    _id: string
+    name: string
+  }
+  email: string
+  role: 'Admin' | 'Manager' | 'Member' | 'Guest'
+  token: string
+  status: 'Pending' | 'Accepted' | 'Expired'
+  invitedById: string
+  expiresAt: string
+  createdAt: string
+}
+
+export interface ApiKey {
+  _id: string
+  userId: string
+  organizationId: string
+  name: string
+  prefix: string
+  scopes: string[]
+  isActive: boolean
+  lastUsedAt?: string
+  expiresAt?: string
+  createdAt: string
+}
+
+export interface EventLog {
+  _id: string
+  userId?: string
+  organizationId?: string
+  action: string
+  details: Record<string, unknown>
+  ipAddress?: string
+  userAgent?: string
+  timestamp: string
 }

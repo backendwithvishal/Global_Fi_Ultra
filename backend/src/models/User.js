@@ -44,6 +44,81 @@ const userSchema = new Schema({
         index: true,
     },
 
+    // Email verification
+    isEmailVerified: {
+        type: Boolean,
+        default: false,
+    },
+    emailVerificationToken: {
+        type: String,
+        select: false,
+    },
+
+    // Password reset
+    passwordResetToken: {
+        type: String,
+        select: false,
+    },
+    passwordResetExpires: {
+        type: Date,
+        select: false,
+    },
+
+    // Multi-factor authentication (MFA)
+    isTwoFactorEnabled: {
+        type: Boolean,
+        default: false,
+    },
+    twoFactorSecret: {
+        type: String,
+        select: false,
+    },
+    twoFactorBackupCodes: {
+        type: [String],
+        default: [],
+        select: false,
+    },
+
+    // Subscription & Billing details
+    subscriptionTier: {
+        type: String,
+        enum: ['Free', 'Starter', 'Pro', 'Enterprise'],
+        default: 'Free',
+        index: true,
+    },
+    subscriptionStatus: {
+        type: String,
+        default: 'active',
+    },
+    stripeCustomerId: {
+        type: String,
+        index: true,
+    },
+    stripeSubscriptionId: {
+        type: String,
+    },
+    subscriptionPeriodEnd: {
+        type: Date,
+    },
+
+    // Active session tracking & login logs
+    loginHistory: [{
+        ipAddress: String,
+        device: String,
+        timestamp: {
+            type: Date,
+            default: Date.now,
+        }
+    }],
+    activeSessions: [{
+        tokenHash: String,
+        device: String,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+
     // User preferences for financial data
     preferences: {
         defaultCurrency: {

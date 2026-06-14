@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard, TrendingUp, BarChart3, Star, Bell,
   Sparkles, Users, Activity, Shield, Settings, Zap,
-  ChevronLeft, ChevronRight,
+  ChevronLeft, ChevronRight, CreditCard, Code, HelpCircle
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -21,6 +21,13 @@ const SECTION_CORE: NavItem[] = [
 const SECTION_TOOLS: NavItem[] = [
   { label: 'Alerts',      href: '/alerts', icon: Bell },
   { label: 'AI Insights', href: '/ai',     icon: Sparkles, badge: 'AI', badgeColor: 'ai' },
+]
+
+const SECTION_WORKSPACE: NavItem[] = [
+  { label: 'Teams',      href: '/settings/teams',     icon: Users },
+  { label: 'Billing',    href: '/settings/billing',   icon: CreditCard },
+  { label: 'Developer',  href: '/settings/developer', icon: Code },
+  { label: 'Support',    href: '/support',            icon: HelpCircle },
 ]
 
 const SECTION_ADMIN: NavItem[] = [
@@ -202,6 +209,13 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         <SectionDivider label="Tools" collapsed={collapsed} />
         <div className="space-y-0.5">
           {SECTION_TOOLS.map(item => (
+            <NavItemRow key={item.href} item={item} collapsed={collapsed} active={isActive(item.href)} />
+          ))}
+        </div>
+
+        <SectionDivider label="Workspace" collapsed={collapsed} />
+        <div className="space-y-0.5">
+          {SECTION_WORKSPACE.map(item => (
             <NavItemRow key={item.href} item={item} collapsed={collapsed} active={isActive(item.href)} />
           ))}
         </div>

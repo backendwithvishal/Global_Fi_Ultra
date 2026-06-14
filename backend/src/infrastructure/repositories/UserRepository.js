@@ -156,6 +156,37 @@ export class UserRepository {
             throw error;
         }
     }
+
+    // Find user by verification token
+    async findByVerificationToken(token) {
+        try {
+            return await User.findOne({ emailVerificationToken: token }).select('+emailVerificationToken');
+        } catch (error) {
+            logger.error('Error finding user by verification token', { error: error.message });
+            throw error;
+        }
+    }
+
+    // Find user by reset token
+    async findByResetToken(token) {
+        try {
+            return await User.findOne({ passwordResetToken: token }).select('+passwordResetToken +passwordResetExpires');
+        } catch (error) {
+            logger.error('Error finding user by reset token', { error: error.message });
+            throw error;
+        }
+    }
+
+    // Find by ID and select specific fields
+    async findByIdWithFields(id, fields = []) {
+        try {
+            const selectString = fields.join(' ');
+            return await User.findById(id).select(selectString);
+        } catch (error) {
+            logger.error('Error finding user with fields', { id, fields, error: error.message });
+            throw error;
+        }
+    }
 }
 
 export default UserRepository;

@@ -11,6 +11,12 @@ const alertSchema = new Schema({
         required: true,
         index: true,
     },
+    organizationId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Organization',
+        required: false,
+        index: true,
+    },
     symbol: {
         type: String,
         required: true,

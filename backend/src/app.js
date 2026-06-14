@@ -44,6 +44,10 @@ import {
     createWatchlistRoutes,
     createAlertRoutes,
     createAssetRoutes,
+    createAuthRoutes,
+    createOrganizationRoutes,
+    createBillingRoutes,
+    createApiKeyRoutes,
 } from './routes/index.js';
 import { createAIRoutes } from './routes/aiRoutes.js';
 
@@ -136,6 +140,14 @@ export const setupRoutes = (app, container) => {
     app.use('/api/v1/watchlists', createWatchlistRoutes(container.get('watchlistController')));
     app.use('/api/v1/alerts', createAlertRoutes(container.get('alertController')));
     app.use('/api/v1/assets', createAssetRoutes(container.get('assetController')));
+
+    // Auth & Identity
+    app.use('/api/v1/auth', createAuthRoutes(container.get('authController')));
+
+    // SaaS multi-tenant, billing & API platform
+    app.use('/api/v1/organizations', createOrganizationRoutes(container.get('organizationController')));
+    app.use('/api/v1/billing', createBillingRoutes(container.get('billingController')));
+    app.use('/api/v1/apikeys', createApiKeyRoutes(container.get('apiKeyController')));
 
     // AI routes — mounted unconditionally (returns 503 if disabled)
     const aiController = container.get('aiController');

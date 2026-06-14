@@ -10,3 +10,7 @@ export { UserController } from './UserController.js';
 export { WatchlistController } from './WatchlistController.js';
 export { AlertController } from './AlertController.js';
 export { AssetController } from './AssetController.js';
+export { AuthController } from './AuthController.js';
+export { OrganizationController } from './OrganizationController.js';
+export { ApiKeyController } from './ApiKeyController.js';
+export { BillingController } from './BillingController.js';

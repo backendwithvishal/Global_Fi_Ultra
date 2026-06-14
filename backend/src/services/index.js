@@ -9,3 +9,6 @@ export { AssetService } from './AssetService.js';
 export { FinancialDataService } from './FinancialDataService.js';
 export { AIMarketService } from './AIMarketService.js';
 export { AINewsService } from './AINewsService.js';
+export { OrganizationService } from './OrganizationService.js';
+export { ApiKeyService } from './ApiKeyService.js';
+export { BillingService } from './BillingService.js';

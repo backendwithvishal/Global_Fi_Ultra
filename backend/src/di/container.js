@@ -43,7 +43,11 @@ import {
     UserRepository,
     FinancialAssetRepository,
     WatchlistRepository,
-    AlertRepository
+    AlertRepository,
+    OrganizationRepository,
+    InvitationRepository,
+    ApiKeyRepository,
+    EventLogRepository
 } from '../infrastructure/repositories/index.js';
 import { SocketManager } from '../infrastructure/websocket/index.js';
 import { MessageQueue } from '../infrastructure/messaging/index.js';
@@ -52,7 +56,10 @@ import {
     UserService,
     WatchlistService,
     AlertService,
-    AssetService
+    AssetService,
+    OrganizationService,
+    ApiKeyService,
+    BillingService
 } from '../services/index.js';
 import {
     HealthController,
@@ -62,7 +69,11 @@ import {
     UserController,
     WatchlistController,
     AlertController,
-    AssetController
+    AssetController,
+    AuthController,
+    OrganizationController,
+    ApiKeyController,
+    BillingController
 } from '../controllers/index.js';
 import { logger } from '../config/logger.js';
 import { config } from '../config/environment.js';
@@ -137,6 +148,10 @@ export class Container {
         const financialAssetRepository = new FinancialAssetRepository();
         const watchlistRepository = new WatchlistRepository();
         const alertRepository = new AlertRepository();
+        const organizationRepository = new OrganizationRepository();
+        const invitationRepository = new InvitationRepository();
+        const apiKeyRepository = new ApiKeyRepository();
+        const eventLogRepository = new EventLogRepository();
 
         // External API clients — each with its own circuit breaker
         const alphaVantageClient = new AlphaVantageClient({ onCircuitStateChange });
@@ -237,6 +252,9 @@ export class Container {
         const watchlistService = new WatchlistService({ watchlistRepository });
         const alertService = new AlertService({ alertRepository });
         const assetService = new AssetService({ financialAssetRepository });
+        const organizationService = new OrganizationService({ organizationRepository, invitationRepository, userRepository });
+        const apiKeyService = new ApiKeyService({ apiKeyRepository });
+        const billingService = new BillingService({ userRepository });
 
         // ─── Layer 3: Controllers ────────────────────────────────────
         const healthController = new HealthController();
@@ -258,6 +276,10 @@ export class Container {
             assetService,
             financialDataService,
         });
+        const authController = new AuthController({ userService });
+        const organizationController = new OrganizationController({ organizationService });
+        const apiKeyController = new ApiKeyController({ apiKeyService });
+        const billingController = new BillingController({ billingService });
 
         // ─── Register All Instances ──────────────────────────────────
         // Infrastructure
@@ -267,6 +289,10 @@ export class Container {
         this.instances.set('financialAssetRepository', financialAssetRepository);
         this.instances.set('watchlistRepository', watchlistRepository);
         this.instances.set('alertRepository', alertRepository);
+        this.instances.set('organizationRepository', organizationRepository);
+        this.instances.set('invitationRepository', invitationRepository);
+        this.instances.set('apiKeyRepository', apiKeyRepository);
+        this.instances.set('eventLogRepository', eventLogRepository);
         this.instances.set('apiClients', apiClients);
 
         // Services
@@ -275,6 +301,9 @@ export class Container {
         this.instances.set('watchlistService', watchlistService);
         this.instances.set('alertService', alertService);
         this.instances.set('assetService', assetService);
+        this.instances.set('organizationService', organizationService);
+        this.instances.set('apiKeyService', apiKeyService);
+        this.instances.set('billingService', billingService);
 
         // Controllers
         this.instances.set('healthController', healthController);
@@ -285,6 +314,10 @@ export class Container {
         this.instances.set('watchlistController', watchlistController);
         this.instances.set('alertController', alertController);
         this.instances.set('assetController', assetController);
+        this.instances.set('authController', authController);
+        this.instances.set('organizationController', organizationController);
+        this.instances.set('apiKeyController', apiKeyController);
+        this.instances.set('billingController', billingController);
 
         // AI instances (may be null if AI is not configured/available)
         this.instances.set('groqClient', groqClient);
