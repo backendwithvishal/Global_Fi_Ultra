@@ -1,9 +1,0 @@
-/**
- * Global-Fi Ultra - Models Index
- */
-
-export { AuditLog } from './AuditLog.js';
-export { User } from './User.js';
-export { FinancialAsset } from './FinancialAsset.js';
-export { Watchlist } from './Watchlist.js';
-export { Alert } from './Alert.js';
