@@ -57,6 +57,21 @@ import {
 export const createAIRoutes = (aiController) => {
   const router = Router();
 
+  // Return 503 Service Unavailable if AI services are disabled
+  if (!aiController) {
+    router.use((req, res) => {
+      res.status(503).json({
+        success: false,
+        error: {
+          code: 'E5003',
+          message: 'AI services are currently disabled. Please configure GROQ_API_KEY to enable them.'
+        },
+        requestId: req.requestId
+      });
+    });
+    return router;
+  }
+
   // Apply AI-specific rate limiter to all AI routes (10 req / 1 min)
   router.use(aiRateLimiter);
 

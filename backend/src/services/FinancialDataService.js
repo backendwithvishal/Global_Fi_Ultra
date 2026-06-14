@@ -180,7 +180,7 @@ export class FinancialDataService {
     // Get cached data only - no API calls
     async getCachedData() {
         const services = ['alpha_vantage', 'coingecko', 'exchangerate_api', 'newsapi', 'fred', 'finnhub'];
-        const cacheKeys = ['stocks:IBM', 'crypto:bitcoin,ethereum', 'forex:USD', 'news:finance OR stock', 'economic:GDP', 'marketnews:general'];
+        const cacheKeys = ['stocks:IBM', 'crypto:bitcoin,ethereum', 'forex:USD', 'news:finance OR stock mar', 'economic:GDP', 'marketnews:general'];
 
         const data = {};
         let hasData = false;

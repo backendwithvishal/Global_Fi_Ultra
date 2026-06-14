@@ -137,13 +137,13 @@ export const setupRoutes = (app, container) => {
     app.use('/api/v1/alerts', createAlertRoutes(container.get('alertController')));
     app.use('/api/v1/assets', createAssetRoutes(container.get('assetController')));
 
-    // AI routes — only mounted if GROQ_API_KEY is configured
+    // AI routes — mounted unconditionally (returns 503 if disabled)
     const aiController = container.get('aiController');
+    app.use('/api/v1/ai', createAIRoutes(aiController));
     if (aiController) {
-        app.use('/api/v1/ai', createAIRoutes(aiController));
         logger.info('✅ AI routes mounted at /api/v1/ai');
     } else {
-        logger.info('ℹ️  AI routes not mounted (AI features disabled)');
+        logger.info('ℹ️  AI routes mounted at /api/v1/ai (disabled mode)');
     }
 
     // ─── Terminal Middleware ──────────────────────────────────────────

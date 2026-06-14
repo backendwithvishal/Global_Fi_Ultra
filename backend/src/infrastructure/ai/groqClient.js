@@ -52,6 +52,10 @@ export class GroqClient {
 
     this.config = AI_CONFIG;
 
+    this.totalTokensUsed = 0;
+    this.totalRequests = 0;
+    this.cacheHits = 0;
+
     this.logger.info('GroqClient initialized', {
       models: this.config.models
     });
@@ -138,6 +142,8 @@ export class GroqClient {
       
       if (cached) {
         this.logger.info('AI cache hit', { cacheKey });
+        this.cacheHits++;
+        this.totalRequests++;
         return cached;
       }
     }
@@ -165,6 +171,11 @@ export class GroqClient {
 
       if (!content) {
         throw new AIServiceError('Empty response from Groq API');
+      }
+
+      this.totalRequests++;
+      if (response.usage?.total_tokens) {
+        this.totalTokensUsed += response.usage.total_tokens;
       }
 
       // Cache successful response
@@ -214,6 +225,7 @@ export class GroqClient {
     });
 
     try {
+      this.totalRequests++;
       const stream = await this.client.chat.completions.create({
         model,
         messages: [{ role: 'user', content: prompt }],
@@ -287,11 +299,11 @@ Output format must match the specified schema exactly.`;
   }
 
   getUsageStats() {
-    // TODO: Implement token usage tracking
+    const hitRate = this.totalRequests > 0 ? (this.cacheHits / this.totalRequests) : 0;
     return {
-      tokensUsed: 0,
-      requestsToday: 0,
-      cacheHitRate: 0
+      tokensUsed: this.totalTokensUsed,
+      requestsToday: this.totalRequests,
+      cacheHitRate: Math.round(hitRate * 100) / 100
     };
   }
 }
