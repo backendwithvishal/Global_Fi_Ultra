@@ -12,6 +12,18 @@ const HelpCenter   = lazy(() => import('@/pages/HelpCenter').then(m => ({ defaul
 const SecurityDocs = lazy(() => import('@/pages/SecurityDocs').then(m => ({ default: m.SecurityDocs })))
 const Affiliate    = lazy(() => import('@/pages/Affiliate').then(m => ({ default: m.Affiliate })))
 
+// Secondary Marketing Pages from MarketingPages
+const About            = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.About })))
+const Contact          = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.Contact })))
+const Blog             = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.Blog })))
+const Changelog        = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.Changelog })))
+const Documentation    = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.Documentation })))
+const Integrations     = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.Integrations })))
+const Careers          = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.Careers })))
+const Partners         = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.Partners })))
+const StatusPage       = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.StatusPage })))
+const CompliancePolicy = lazy(() => import('@/pages/MarketingPages').then(m => ({ default: m.CompliancePolicy })))
+
 // Authentication
 const Login        = lazy(() => import('@/pages/Login').then(m => ({ default: m.Login })))
 const Register     = lazy(() => import('@/pages/Register').then(m => ({ default: m.Register })))
@@ -69,6 +81,19 @@ export default function App() {
             <Route path="/support"  element={<Suspense fallback={<PageLoader />}><HelpCenter /></Suspense>} />
             <Route path="/security" element={<Suspense fallback={<PageLoader />}><SecurityDocs /></Suspense>} />
             <Route path="/affiliate" element={<Suspense fallback={<PageLoader />}><Affiliate /></Suspense>} />
+            <Route path="/about" element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
+            <Route path="/contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
+            <Route path="/blog" element={<Suspense fallback={<PageLoader />}><Blog /></Suspense>} />
+            <Route path="/changelog" element={<Suspense fallback={<PageLoader />}><Changelog /></Suspense>} />
+            <Route path="/docs" element={<Suspense fallback={<PageLoader />}><Documentation /></Suspense>} />
+            <Route path="/integrations" element={<Suspense fallback={<PageLoader />}><Integrations /></Suspense>} />
+            <Route path="/careers" element={<Suspense fallback={<PageLoader />}><Careers /></Suspense>} />
+            <Route path="/partners" element={<Suspense fallback={<PageLoader />}><Partners /></Suspense>} />
+            <Route path="/status" element={<Suspense fallback={<PageLoader />}><StatusPage /></Suspense>} />
+            <Route path="/privacy" element={<Suspense fallback={<PageLoader />}><CompliancePolicy type="privacy" /></Suspense>} />
+            <Route path="/terms" element={<Suspense fallback={<PageLoader />}><CompliancePolicy type="terms" /></Suspense>} />
+            <Route path="/cookie" element={<Suspense fallback={<PageLoader />}><CompliancePolicy type="cookie" /></Suspense>} />
+            <Route path="/gdpr" element={<Suspense fallback={<PageLoader />}><CompliancePolicy type="gdpr" /></Suspense>} />
 
             {/* Authentication */}
             <Route path="/login"    element={<Suspense fallback={<PageLoader />}><Login /></Suspense>} />

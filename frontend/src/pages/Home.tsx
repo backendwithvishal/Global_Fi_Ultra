@@ -262,29 +262,36 @@ export function Home() {
             <ul className="space-y-2">
               <li><Link to="/features" className="hover:text-[var(--text-1)]">Features</Link></li>
               <li><Link to="/pricing" className="hover:text-[var(--text-1)]">Pricing</Link></li>
-              <li><Link to="/login" className="hover:text-[var(--text-1)]">API Sandbox</Link></li>
+              <li><Link to="/integrations" className="hover:text-[var(--text-1)]">Integrations</Link></li>
+              <li><Link to="/changelog" className="hover:text-[var(--text-1)]">Changelog</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-[var(--text-2)] mb-4 uppercase tracking-wider text-[10px]">Company</h4>
             <ul className="space-y-2">
-              <li><Link to="/security" className="hover:text-[var(--text-1)]">Security</Link></li>
+              <li><Link to="/about" className="hover:text-[var(--text-1)]">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-[var(--text-1)]">Contact Sales</Link></li>
+              <li><Link to="/careers" className="hover:text-[var(--text-1)]">Careers</Link></li>
+              <li><Link to="/partners" className="hover:text-[var(--text-1)]">Partners</Link></li>
               <li><Link to="/affiliate" className="hover:text-[var(--text-1)]">Affiliate Program</Link></li>
-              <li><Link to="/support" className="hover:text-[var(--text-1)]">About Us</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-[var(--text-2)] mb-4 uppercase tracking-wider text-[10px]">Legal</h4>
             <ul className="space-y-2">
-              <li><Link to="/security" className="hover:text-[var(--text-1)]">Privacy Policy</Link></li>
-              <li><Link to="/security" className="hover:text-[var(--text-1)]">Terms & Service</Link></li>
+              <li><Link to="/privacy" className="hover:text-[var(--text-1)]">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-[var(--text-1)]">Terms & Service</Link></li>
+              <li><Link to="/cookie" className="hover:text-[var(--text-1)]">Cookie Policy</Link></li>
+              <li><Link to="/gdpr" className="hover:text-[var(--text-1)]">GDPR Compliance</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-[var(--text-2)] mb-4 uppercase tracking-wider text-[10px]">Developer</h4>
             <ul className="space-y-2">
-              <li><Link to="/settings/developer" className="hover:text-[var(--text-1)]">API Reference</Link></li>
-              <li><Link to="/support" className="hover:text-[var(--text-1)]">System Status</Link></li>
+              <li><Link to="/docs" className="hover:text-[var(--text-1)]">API Reference & Docs</Link></li>
+              <li><Link to="/security" className="hover:text-[var(--text-1)]">Security Docs</Link></li>
+              <li><Link to="/status" className="hover:text-[var(--text-1)]">System Status</Link></li>
+              <li><Link to="/support" className="hover:text-[var(--text-1)]">Support Center</Link></li>
             </ul>
           </div>
         </div>
@@ -292,8 +299,8 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-6 border-t border-[var(--border-1)] pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p>© 2026 Global-Fi Ultra. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-[var(--text-1)] flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Contact</a>
-            <a href="#" className="hover:text-[var(--text-1)] flex items-center gap-1.5"><MessageSquare className="w-3.5 h-3.5" /> Support Chat</a>
+            <Link to="/contact" className="hover:text-[var(--text-1)] flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Contact Sales</Link>
+            <Link to="/support" className="hover:text-[var(--text-1)] flex items-center gap-1.5"><MessageSquare className="w-3.5 h-3.5" /> Help Ticket</Link>
           </div>
         </div>
       </footer>
