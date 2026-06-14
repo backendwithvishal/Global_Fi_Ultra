@@ -6,6 +6,7 @@ interface ScrollRevealProps {
   delay?: number
   direction?: 'up' | 'down' | 'left' | 'right' | 'scale'
   threshold?: number
+  id?: string
 }
 
 export function ScrollReveal({
@@ -13,7 +14,8 @@ export function ScrollReveal({
   className = '',
   delay = 0,
   direction = 'up',
-  threshold = 0.1
+  threshold = 0.1,
+  id
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -49,8 +51,9 @@ export function ScrollReveal({
   }, [delay, direction, threshold])
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={className} id={id}>
       {children}
     </div>
   )
 }
+

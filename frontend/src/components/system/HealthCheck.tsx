@@ -11,8 +11,9 @@ function relTime(s: string) {
   return `${Math.floor(secs / 60)}m ago`
 }
 
-const cardCls = 'bg-white dark:bg-[#131D2E] border border-slate-200/80 dark:border-[var(--border)] rounded-xl p-5'
-const rowCls  = 'flex items-center justify-between p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40'
+const cardCls = 'card p-5'
+const rowCls  = 'flex items-center justify-between p-2.5 rounded-lg bg-[var(--bg-3)] border border-[var(--border-1)]'
+
 
 export function HealthCheck({
   health, ready, loading,

@@ -40,12 +40,12 @@ export function StatCard({
       {/* Level 2 card */}
       <div
         className={cn(
-          'relative rounded-xl border bg-white dark:bg-[#131D2E] overflow-hidden',
-          accent === 'green'  ? 'border-emerald-500/20' :
-          accent === 'red'    ? 'border-red-500/20' :
-          accent === 'purple' ? 'border-purple-500/20' :
-          'border-slate-200/80 dark:border-[var(--border)]',
-          onClick && 'cursor-pointer hover:bg-slate-50 dark:hover:bg-[var(--bg-raised)] transition-colors',
+          'relative rounded-xl border bg-[var(--bg-2)] overflow-hidden',
+          accent === 'green'  ? 'border-[var(--success-border)]' :
+          accent === 'red'    ? 'border-[var(--danger-border)]' :
+          accent === 'purple' ? 'border-[var(--ai-border)]' :
+          'border-[var(--border-2)]',
+          onClick && 'cursor-pointer hover:bg-[var(--bg-3)] transition-colors',
           className
         )}
         onClick={onClick}

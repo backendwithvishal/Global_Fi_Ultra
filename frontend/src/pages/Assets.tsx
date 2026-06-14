@@ -21,9 +21,10 @@ const schema = z.object({
 type Form = z.infer<typeof schema>
 
 // Level 3 input, Level 2 card
-const inputCls = 'w-full h-9 bg-slate-50 dark:bg-[var(--bg-input)] border border-slate-200 dark:border-[var(--border)] hover:border-slate-300 dark:hover:border-[var(--border-md)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-blue-500/30 rounded-lg px-3 text-sm text-[var(--text-1)] placeholder:text-[var(--text-3)] transition-all duration-150'
-const labelCls = 'block text-xs font-medium text-[var(--text-2)] mb-1.5 uppercase tracking-wider'
-const cardCls  = 'bg-white dark:bg-[#131D2E] border border-slate-200/80 dark:border-[var(--border)] rounded-xl'
+const inputCls = 'input-premium text-sm !h-9 !px-3'
+const labelCls = 'block text-xs font-semibold text-[var(--text-3)] mb-1.5 uppercase tracking-wider'
+const cardCls  = 'card'
+
 
 const typeColor: Record<string, string> = {
   stock: 'blue', crypto: 'amber', forex: 'purple', commodity: 'green', index: 'cyan',
@@ -123,8 +124,8 @@ export function Assets() {
         </div>
       ) : assets.length === 0 ? (
         <div className={`flex flex-col items-center justify-center py-16 ${cardCls} text-center`}>
-          <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/60 mb-4">
-            <BarChart3 className="h-8 w-8 text-slate-500 dark:text-[var(--text-3)]" />
+          <div className="p-4 rounded-2xl bg-[var(--bg-3)] border border-[var(--border-2)] mb-4">
+            <BarChart3 className="h-8 w-8 text-[var(--text-3)]" />
           </div>
           <p className="text-sm font-medium text-[var(--text-1)]">No assets found</p>
           <p className="text-xs text-[var(--text-3)] mt-1">
@@ -140,9 +141,9 @@ export function Assets() {
                 key={a._id}
                 initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }} transition={{ delay: i * 0.02 }}
-                className="flex items-center gap-4 px-5 py-3.5 border-b border-slate-100 dark:border-slate-800/60 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group"
+                className="flex items-center gap-4 px-5 py-3.5 border-b border-[var(--border-1)] last:border-0 hover:bg-[var(--bg-3)]/60 transition-colors group"
               >
-                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-lg shrink-0 border border-slate-200 dark:border-[var(--border)]">
+                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-[var(--bg-3)] text-lg shrink-0 border border-[var(--border-2)] text-[var(--text-1)]">
                   {a.type === 'stock' ? '📈' : a.type === 'crypto' ? '₿' : a.type === 'forex' ? '💱' : a.type === 'commodity' ? '🏅' : '📊'}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -176,11 +177,11 @@ export function Assets() {
 
       {/* Create modal — Level 4 */}
       {createOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setCreate(false)} />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--bg-overlay)] backdrop-blur-[6px]">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-transparent" onClick={() => setCreate(false)} />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="relative w-full max-w-md bg-white dark:bg-[#1A2540] border border-slate-200 dark:border-[var(--border-md)] rounded-2xl p-6 shadow-2xl z-10"
+            className="relative w-full max-w-md bg-[var(--bg-3)] border border-[var(--border-3)] rounded-2xl p-6 shadow-[var(--shadow-overlay)] z-10"
           >
             <h2 className="text-base font-bold text-[var(--text-1)] mb-5">Add Financial Asset</h2>
             <form onSubmit={handleSubmit(handleCreate)} className="space-y-4">
