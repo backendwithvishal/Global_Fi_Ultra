@@ -16,6 +16,7 @@ import type {
   PaginatedResponse,
   CreateAlertFormData,
   CreateWatchlistFormData,
+  Organization,
 } from '@/types'
 
 // ─── Axios Instance ───────────────────────────────────────────────────────────
@@ -110,9 +111,57 @@ export const usersApi = {
     api.put<{ user: User }>(`/users/${id}`, data).then((r) => r.data.user),
   patch: (id: string, data: Partial<CreateUserData>) =>
     api.patch<{ user: User }>(`/users/${id}`, data).then((r) => r.data.user),
-  delete: (id: string) =>
-    api.delete<{ message: string }>(`/users/${id}`).then((r) => r.data),
+  delete: (id: string, config?: AxiosRequestConfig) =>
+    api.delete<{ message: string }>(`/users/${id}`, config).then((r) => r.data),
 }
+
+// ─── SaaS Organizations ────────────────────────────────────────────────────────
+
+export const organizationsApi = {
+  list: () =>
+    api.get<{ orgs: Organization[] }>('/organizations').then((r) => r.data),
+  get: (id: string) =>
+    api.get<{ org: Organization }>(`/organizations/${id}`).then((r) => r.data.org),
+  create: (data: { name: string }) =>
+    api.post<{ org: Organization }>('/organizations', data).then((r) => r.data),
+  invite: (orgId: string, email: string, role: string) =>
+    api.post<{ message: string; invite: any }>(`/organizations/${orgId}/invite`, { email, role }).then((r) => r.data),
+  getInvites: (orgId: string) =>
+    api.get<{ invites: any[] }>(`/organizations/${orgId}/invites`).then((r) => r.data),
+  acceptInvite: (token: string) =>
+    api.post<{ message: string; member: any }>('/organizations/invite/accept', { token }).then((r) => r.data),
+  removeMember: (orgId: string, userId: string) =>
+    api.delete<{ message: string }>(`/organizations/${orgId}/members/${userId}`).then((r) => r.data),
+  updateMemberRole: (orgId: string, userId: string, role: string) =>
+    api.patch<{ message: string }>(`/organizations/${orgId}/members/${userId}/role`, { role }).then((r) => r.data),
+}
+
+// ─── API Keys ─────────────────────────────────────────────────────────────────
+
+export const apiKeysApi = {
+  list: (orgId?: string) =>
+    api.get<{ keys: any[] }>('/apikeys', { params: orgId ? { orgId } : {} }).then((r) => r.data),
+  create: (data: { name: string; organizationId: string; scopes: string[] }) =>
+    api.post<{ apiKey: any; plainTextKey: string }>('/apikeys', data).then((r) => r.data),
+  delete: (id: string) =>
+    api.delete<{ message: string }>(`/apikeys/${id}`).then((r) => r.data),
+}
+
+// ─── Billing ──────────────────────────────────────────────────────────────────
+
+export const billingApi = {
+  checkout: (data: { planId: string; billingCycle: string; couponCode?: string }) =>
+    api.post<{ redirectUrl: string; sessionId: string }>('/billing/checkout', data).then((r) => r.data),
+  confirm: (data: { sessionId: string; planId: string; billingCycle: string }) =>
+    api.post<{ user: User }>('/billing/confirm', data).then((r) => r.data),
+  cancel: () =>
+    api.post<{ user: User }>('/billing/cancel').then((r) => r.data),
+  getInvoices: () =>
+    api.get<{ invoices: any[] }>('/billing/invoices').then((r) => r.data),
+  getCoupon: (code: string) =>
+    api.get<{ coupon: { discountPercent: number; valid: boolean } }>(`/billing/coupons/${code}`).then((r) => r.data),
+}
+
 
 // ─── Watchlists ───────────────────────────────────────────────────────────────
 

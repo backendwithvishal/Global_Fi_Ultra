@@ -3,6 +3,7 @@ import type { User, ToastMessage, Organization } from '@/types'
 import { useTheme } from '@/hooks/useTheme'
 import { useToast } from '@/hooks/useToast'
 import { generateId } from '@/lib/utils'
+import { organizationsApi } from '@/lib/api'
 
 interface AppContextValue {
   // Auth
@@ -103,12 +104,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const refreshUserOrganizations = useCallback(async () => {
     if (!token) return
     try {
-      const res = await fetch('http://localhost:4000/api/v1/organizations', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      const data = await res.json()
+      const data = await organizationsApi.list()
       if (data.orgs) {
         setUserOrganizations(data.orgs)
         // If current org is not set or not in list, select first

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '@/context/AppContext'
 import { Check, Compass, Briefcase, Settings2 } from 'lucide-react'
+import { organizationsApi, usersApi } from '@/lib/api'
 
 export function Onboarding() {
   const [step, setStep] = useState(1)
@@ -21,22 +22,12 @@ export function Onboarding() {
 
     setIsLoading(true)
     try {
-      const res = await fetch('http://localhost:4000/api/v1/organizations', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ name: orgName })
-      })
-      const data = await res.json()
-      if (res.ok && data.org) {
+      const data = await organizationsApi.create({ name: orgName })
+      if (data.org) {
         setCurrentOrganization(data.org)
         setStep(3)
-      } else {
-        toast.error('Workspace Setup Failed', data.error || 'Failed to create workspace')
       }
-    } catch {
+    } catch (err: any) {
       // Fallback offline mock creation
       const mockOrg = {
         _id: `org_${Math.random().toString(36).substring(7)}`,
@@ -59,28 +50,16 @@ export function Onboarding() {
     setIsLoading(true)
 
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/users/${currentUser._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          preferences: {
-            ...currentUser.preferences,
-            defaultCurrency: currency,
-            defaultStockSymbol: defaultStock
-          }
-        })
+      const updatedUser = await usersApi.patch(currentUser._id, {
+        preferences: {
+          ...currentUser.preferences,
+          defaultCurrency: currency,
+          defaultStockSymbol: defaultStock
+        }
       })
-      const data = await res.json()
-      if (res.ok && data.user) {
-        setCurrentUser(data.user)
-        toast.success('Setup Completed!', 'Welcome to Global-Fi Ultra console.')
-        navigate('/')
-      } else {
-        toast.error('Saving Preferences Failed', data.error || 'Failed to update preferences')
-      }
+      setCurrentUser(updatedUser)
+      toast.success('Setup Completed!', 'Welcome to Global-Fi Ultra console.')
+      navigate('/')
     } catch {
       // Fallback offline update
       const updatedUser = {

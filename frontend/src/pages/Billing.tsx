@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useApp } from '@/context/AppContext'
 import { CreditCard, Calendar, Check, Download, AlertCircle } from 'lucide-react'
+import { billingApi } from '@/lib/api'
 
 export function Billing() {
   const { currentUser, token, setCurrentUser, toast } = useApp()
@@ -20,16 +21,8 @@ export function Billing() {
     if (sessionId && plan && currentUser) {
       const confirmPayment = async () => {
         try {
-          const res = await fetch('http://localhost:3000/api/v1/billing/confirm', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ sessionId, planId: plan, billingCycle: cycle })
-          })
-          const data = await res.json()
-          if (res.ok && data.user) {
+          const data = await billingApi.confirm({ sessionId, planId: plan, billingCycle: cycle })
+          if (data.user) {
             setCurrentUser(data.user)
             toast.success('Billing Upgraded!', `Your subscription was successfully changed to ${plan} tier.`)
             navigate('/settings/billing')
@@ -58,12 +51,7 @@ export function Billing() {
     const fetchInvoices = async () => {
       if (!token) return
       try {
-        const res = await fetch('http://localhost:3000/api/v1/billing/invoices', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        const data = await res.json()
+        const data = await billingApi.getInvoices()
         if (data.invoices) {
           setInvoices(data.invoices)
         }
@@ -92,14 +80,8 @@ export function Billing() {
 
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/api/v1/billing/cancel', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      const data = await res.json()
-      if (res.ok && data.user) {
+      const data = await billingApi.cancel()
+      if (data.user) {
         setCurrentUser(data.user)
         toast.warning('Subscription Cancelled', 'Your subscription will not renew next month.')
       }

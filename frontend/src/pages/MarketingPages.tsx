@@ -10,6 +10,7 @@ import {
 import { PublicNav } from '@/components/common/PublicNav'
 import { PublicFooter } from '@/components/common/PublicFooter'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { usersApi } from '@/lib/api'
 import { cn } from '@/lib/utils'
 
 /* ═══════════════════════════════════════════════════════
@@ -844,14 +845,11 @@ export function CompliancePolicy({ type }: { type: 'privacy' | 'terms' | 'cookie
     if (!currentUser || !window.confirm('This will permanently delete your account and all data. This cannot be undone.')) return
     setDeleting(true)
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/users/${currentUser._id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}`, 'X-GDPR-Hard-Delete': 'true' }
+      await usersApi.delete(currentUser._id, {
+        headers: { 'X-GDPR-Hard-Delete': 'true' }
       })
-      if (res.ok) {
-        toast.success('Profile Deleted', 'Your data has been permanently removed.')
-        logout()
-      }
+      toast.success('Profile Deleted', 'Your data has been permanently removed.')
+      logout()
     } catch {
       toast.error('Failed', 'Could not process GDPR delete request.')
     } finally {

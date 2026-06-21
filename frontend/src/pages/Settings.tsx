@@ -17,8 +17,8 @@ const API_SOURCES = [
 ]
 
 const API_CONFIG = [
-  { label: 'API Base URL',  value: 'http://localhost:3000/api/v1' },
-  { label: 'WebSocket',     value: 'ws://localhost:3000' },
+  { label: 'API Base URL',  value: window.location.origin + '/api/v1' },
+  { label: 'WebSocket',     value: window.location.origin.replace(/^http/, 'ws') },
   { label: 'API Version',   value: '1.0.0' },
   { label: 'Global Limit',  value: '100 req / 15 min' },
   { label: 'AI Limit',      value: '10 req / 1 min' },

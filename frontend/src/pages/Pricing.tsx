@@ -7,6 +7,7 @@ import { PublicFooter } from '@/components/common/PublicFooter'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { AnimatePresence, motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { billingApi } from '@/lib/api'
 
 /* ── Plans data ── */
 const PLANS = [
@@ -167,16 +168,11 @@ export function Pricing() {
     setCouponError('')
     if (!couponCode) return
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/billing/coupons/${couponCode}`, {
-        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-      })
-      const data = await res.json()
-      if (res.ok && data.coupon) {
+      const data = await billingApi.getCoupon(couponCode)
+      if (data.coupon) {
         setDiscountPct(data.coupon.discountPercent)
         setActiveCoupon(couponCode.toUpperCase())
         toast.success('Coupon Applied!', `${data.coupon.discountPercent}% discount applied.`)
-      } else {
-        setCouponError(data.error || 'Invalid coupon code')
       }
     } catch {
       const fallbacks: Record<string, number> = { 'GLOBALFIT30': 30, 'SAASNEW': 15, 'INVESTORFREE': 100 }
@@ -196,14 +192,8 @@ export function Pricing() {
     if (planId === 'Free') { toast.info('Free Plan', 'You\'re already on the free tier.'); return }
     if (planId === 'Enterprise') { navigate('/contact'); return }
     try {
-      const res = await fetch('http://localhost:3000/api/v1/billing/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ planId, billingCycle: cycle, couponCode: activeCoupon })
-      })
-      const data = await res.json()
-      if (res.ok && data.redirectUrl) window.location.href = data.redirectUrl
-      else toast.error('Checkout Failed', data.error || 'Failed to initiate checkout')
+      const data = await billingApi.checkout({ planId, billingCycle: cycle, couponCode: activeCoupon })
+      if (data.redirectUrl) window.location.href = data.redirectUrl
     } catch {
       const plan = PLANS.find(p => p.id === planId)!
       const base = cycle === 'yearly' ? plan.priceYearly : plan.priceMonthly

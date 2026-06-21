@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useApp } from '@/context/AppContext'
 import { Code, Terminal, Key, Trash, AlertTriangle, Eye, EyeOff } from 'lucide-react'
+import { apiKeysApi } from '@/lib/api'
 
 export function DeveloperKeys() {
   const { currentOrganization, token, toast } = useApp()
@@ -15,13 +16,7 @@ export function DeveloperKeys() {
   const fetchKeys = async () => {
     if (!token) return
     try {
-      const orgParam = currentOrganization ? `?orgId=${currentOrganization._id}` : ''
-      const res = await fetch(`http://localhost:3000/api/v1/apikeys${orgParam}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      const data = await res.json()
+      const data = await apiKeysApi.list(currentOrganization?._id)
       if (data.keys) {
         setKeys(data.keys)
       }
@@ -46,27 +41,17 @@ export function DeveloperKeys() {
 
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/api/v1/apikeys', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          name,
-          organizationId: currentOrganization._id,
-          scopes
-        })
+      const data = await apiKeysApi.create({
+        name,
+        organizationId: currentOrganization._id,
+        scopes
       })
-      const data = await res.json()
-      if (res.ok && data.apiKey) {
+      if (data.apiKey) {
         setNewKeyPlain(data.plainTextKey)
         setRevealKey(true)
         setName('')
         toast.success('API Key Generated!', 'Make sure to copy your key. It will not be shown again.')
         fetchKeys()
-      } else {
-        toast.error('Generation Failed', data.error || 'Failed to generate key')
       }
     } catch {
       // Mock offline key creation
@@ -90,16 +75,9 @@ export function DeveloperKeys() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/apikeys/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      if (res.ok) {
-        toast.success('Key Deactivated', 'The API key has been cancelled.')
-        fetchKeys()
-      }
+      await apiKeysApi.delete(id)
+      toast.success('Key Deactivated', 'The API key has been cancelled.')
+      fetchKeys()
     } catch {
       setKeys(prev => prev.filter(k => k._id !== id))
       toast.success('Key Deleted (Offline)', 'The API key was removed from the local state.')
@@ -249,7 +227,7 @@ export function DeveloperKeys() {
               Authenticate public requests by adding the plain text key inside the authorization bearer headers parameter:
             </p>
             <pre className="text-[11px] text-[var(--text-3)] font-mono leading-relaxed bg-[var(--bg-1)] p-3.5 rounded-lg overflow-x-auto border border-[var(--border-2)]">
-{`curl -X GET http://localhost:3000/api/v1/financial/live \\
+{`curl -X GET http://localhost:4000/api/v1/financial/live \\
   -H "Authorization: Bearer gfu_live_your_token_key" \\
   -H "Content-Type: application/json"`}
             </pre>

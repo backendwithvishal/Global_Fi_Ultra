@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useApp } from '@/context/AppContext'
 import { Users, Mail, UserPlus, ShieldAlert, X } from 'lucide-react'
+import { organizationsApi } from '@/lib/api'
 
 export function Organizations() {
   const { currentOrganization, token, toast, refreshUserOrganizations } = useApp()
@@ -13,12 +14,7 @@ export function Organizations() {
   const fetchInvites = useCallback(async () => {
     if (!currentOrganization || !token) return
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/organizations/${currentOrganization._id}/invites`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      const data = await res.json()
+      const data = await organizationsApi.getInvites(currentOrganization._id)
       if (data.invites) {
         setInvites(data.invites)
       }
@@ -40,22 +36,10 @@ export function Organizations() {
 
     setLoading(true)
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/organizations/${currentOrganization._id}/invite`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ email, role })
-      })
-      const data = await res.json()
-      if (res.ok) {
-        toast.success('Invitation Sent!', `An email invitation was registered for ${email}.`)
-        setEmail('')
-        fetchInvites()
-      } else {
-        toast.error('Invitation Failed', data.error || 'Failed to send team invitation')
-      }
+      await organizationsApi.invite(currentOrganization._id, email, role)
+      toast.success('Invitation Sent!', `An email invitation was registered for ${email}.`)
+      setEmail('')
+      fetchInvites()
     } catch {
       // Mock offline invite addition
       setInvites(prev => [
@@ -75,43 +59,23 @@ export function Organizations() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/organizations/${currentOrganization?._id}/members/${userId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      if (res.ok) {
-        toast.success('Member Removed', 'The user was removed from the organization workspace.')
-        refreshUserOrganizations()
-      } else {
-        const data = await res.json()
-        toast.error('Action Failed', data.error || 'Failed to remove member')
-      }
-    } catch {
-      toast.error('Action Failed', 'Network failure, could not remove member offline.')
+      if (!currentOrganization) return
+      await organizationsApi.removeMember(currentOrganization._id, userId)
+      toast.success('Member Removed', 'The user was removed from the organization workspace.')
+      refreshUserOrganizations()
+    } catch (err: any) {
+      toast.error('Action Failed', err.message || 'Failed to remove member')
     }
   }
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/organizations/${currentOrganization?._id}/members/${userId}/role`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ role: newRole })
-      })
-      if (res.ok) {
-        toast.success('Role Updated', 'The user role has been successfully modified.')
-        refreshUserOrganizations()
-      } else {
-        const data = await res.json()
-        toast.error('Action Failed', data.error || 'Failed to change role')
-      }
-    } catch {
-      toast.error('Action Failed', 'Network failure, could not change role offline.')
+      if (!currentOrganization) return
+      await organizationsApi.updateMemberRole(currentOrganization._id, userId, newRole)
+      toast.success('Role Updated', 'The user role has been successfully modified.')
+      refreshUserOrganizations()
+    } catch (err: any) {
+      toast.error('Action Failed', err.message || 'Failed to change role')
     }
   }
 
