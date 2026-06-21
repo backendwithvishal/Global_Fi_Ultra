@@ -12,8 +12,44 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': { target: 'http://127.0.0.1:4000', changeOrigin: true },
-      '/socket.io': { target: 'http://127.0.0.1:4000', ws: true, changeOrigin: true },
+      '/api': {
+        target: 'http://127.0.0.1:4000',
+        changeOrigin: true,
+        secure: false,
+        configure: (proxy) => {
+          proxy.on('error', (err) => {
+            // Suppress noisy connection-reset / aborted errors during dev
+            if (
+              err.message.includes('ECONNABORTED') ||
+              err.message.includes('ECONNRESET') ||
+              err.message.includes('ECONNREFUSED')
+            ) {
+              return
+            }
+            console.warn('[proxy /api error]', err.message)
+          })
+        },
+      },
+      '/socket.io': {
+        target: 'http://127.0.0.1:4000',
+        ws: true,
+        changeOrigin: true,
+        secure: false,
+        configure: (proxy) => {
+          proxy.on('error', (err) => {
+            // Suppress transient WebSocket proxy errors during dev
+            if (
+              err.message.includes('ECONNABORTED') ||
+              err.message.includes('ECONNRESET') ||
+              err.message.includes('ECONNREFUSED') ||
+              err.message.includes('write')
+            ) {
+              return
+            }
+            console.warn('[proxy /socket.io error]', err.message)
+          })
+        },
+      },
     },
   },
 })
